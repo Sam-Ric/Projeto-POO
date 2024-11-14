@@ -10,6 +10,5 @@ public class TaxaReduzida extends Alimentos{
         this.certificacoes = certificacoes;
     }
 
-
-    }
 }
+
