@@ -2,8 +2,9 @@ public class Produto {
     protected String nome;
     protected String descricao;
     protected int quantidade;
-    protected double preco;
-    protected String codigo;
+    protected double valorUnitario;
+    protected int codigo;
+    protected int iva;
     public Produto(){}
     public String getNome() {
         return nome;
@@ -29,19 +30,30 @@ public class Produto {
         this.quantidade = quantidade;
     }
 
-    public double getPreco() {
-        return preco;
+    public double getValorUnitario() {
+        return valorUnitario;
     }
 
-    public void setPreco(double preco) {
-        this.preco = preco;
+    public void setValorUnitario(double valorUnitario) {
+        this.valorUnitario = valorUnitario;
     }
 
-    public String getCodigo() {
+    public int getCodigo() {
         return codigo;
     }
 
-    public void setCodigo(String codigo) {
+    public void setCodigo(int codigo) {
         this.codigo = codigo;
+    }
+
+    public int getIva() {
+        return iva;
+    }
+
+    public void setIva(int iva) {
+        this.iva = iva;
+    }
+    public double calcValorSemiva(){
+        
     }
 }
