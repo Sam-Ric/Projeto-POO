@@ -1,14 +1,13 @@
 public class TaxaReduzida extends Alimentos{
-    private String certificacoes;
+    private String[] certificacoes;
     public TaxaReduzida() {}
 
-    public String getCertificacoes() {
+    public String[] getCertificacoes() {
         return certificacoes;
     }
 
-    public void setCertificacoes(String certificacoes) {
+    public void setCertificacoes(String[] certificacoes) {
         this.certificacoes = certificacoes;
     }
-
 }
 

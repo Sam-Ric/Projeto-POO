@@ -27,7 +27,7 @@ public class Clientes {
     public void setLocalizacao(String localizacao) {
         this.localizacao = localizacao;
     }
-    
+
     public String toString() {
         return "Clientes{" +
                 "nome='" + nome + '\'' +
