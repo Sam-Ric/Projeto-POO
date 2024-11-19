@@ -1,3 +1,3 @@
-public class Congelados extends TaxaIntermedia{
+public class Congelados extends TaxaIntermedia {
     public Congelados() {}
 }

@@ -1,3 +1,3 @@
-public class TaxaNormal extends Alimentos {
-
+public class TaxaNormal extends ProdAlimentar {
+    public TaxaNormal() {}
 }

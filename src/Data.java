@@ -1,9 +1,13 @@
 public class Data {
+    // Atributos da classe
     protected int dia;
     protected int mes;
     protected int ano;
+
+    // Construtores
     public Data() {}
 
+    // Metodos de acesso
     public int getDia() {
         return dia;
     }

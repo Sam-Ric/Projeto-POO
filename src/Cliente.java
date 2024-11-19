@@ -1,9 +1,13 @@
-public class Clientes {
+public class Cliente {
+    // Atributos da classe
     protected String nome;
-    protected int NIF;
+    protected int nif;
     protected String localizacao;
-    public Clientes() {} //construtor por omissao
 
+    // Construtores
+    public Cliente() {}
+
+    // Metodos de acesso
     public String getNome() {
         return nome;
     }
@@ -12,12 +16,12 @@ public class Clientes {
         this.nome = nome;
     }
 
-    public int getNIF() {
-        return NIF;
+    public int getNif() {
+        return nif;
     }
 
-    public void setNIF(int NIF) {
-        this.NIF = NIF;
+    public void setNif(int NIF) {
+        this.nif = NIF;
     }
 
     public String getLocalizacao() {
@@ -31,7 +35,7 @@ public class Clientes {
     public String toString() {
         return "Clientes{" +
                 "nome='" + nome + '\'' +
-                ", NIF=" + NIF +
+                ", NIF=" + nif +
                 ", localizacao='" + localizacao + '\'' +
                 '}';
     }

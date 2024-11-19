@@ -1,11 +1,24 @@
 public class Produto {
-    protected String nome;
-    protected String descricao;
-    protected int quantidade;
-    protected double valorUnitario;
+    // Atributos da classe
     protected int codigo;
+    protected String nome;
+    protected String desc;
+    protected int quantidade;
+    protected float valorUnit;
     protected int iva;
-    public Produto(){}
+
+    // Construtores
+    public Produto() {}
+
+    // Metodos de acesso
+    public int getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(int codigo) {
+        this.codigo = codigo;
+    }
+
     public String getNome() {
         return nome;
     }
@@ -14,12 +27,12 @@ public class Produto {
         this.nome = nome;
     }
 
-    public String getDescricao() {
-        return descricao;
+    public String getDesc() {
+        return desc;
     }
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
+    public void setDesc(String desc) {
+        this.desc = desc;
     }
 
     public int getQuantidade() {
@@ -30,20 +43,12 @@ public class Produto {
         this.quantidade = quantidade;
     }
 
-    public double getValorUnitario() {
-        return valorUnitario;
+    public double getValorUnit() {
+        return valorUnit;
     }
 
-    public void setValorUnitario(double valorUnitario) {
-        this.valorUnitario = valorUnitario;
-    }
-
-    public int getCodigo() {
-        return codigo;
-    }
-
-    public void setCodigo(int codigo) {
-        this.codigo = codigo;
+    public void setValorUnit(float valorUnit) {
+        this.valorUnit = valorUnit;
     }
 
     public int getIva() {
@@ -53,7 +58,17 @@ public class Produto {
     public void setIva(int iva) {
         this.iva = iva;
     }
-    public double calcValorSemiva(){
-        
-    }
+
+    // public String toString() {}
+
+    /*
+    public float calcValorSemIva() {}
+
+    public float calcValorComIva() {}
+
+    public int calcTaxaIva() {}
+
+    public float calcValorIva() {}
+
+     */
 }

@@ -1,3 +1,3 @@
-public class Enlatados extends TaxaIntermedia{
+public class Enlatados extends TaxaIntermedia {
     public Enlatados() {}
 }

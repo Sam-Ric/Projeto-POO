@@ -1,7 +1,11 @@
-public class TaxaReduzida extends Alimentos{
+public class TaxaReduzida extends ProdAlimentar {
+    // Atributos da classe
     private String[] certificacoes;
+
+    // Construtores
     public TaxaReduzida() {}
 
+    // Metodos de acesso
     public String[] getCertificacoes() {
         return certificacoes;
     }
@@ -9,5 +13,7 @@ public class TaxaReduzida extends Alimentos{
     public void setCertificacoes(String[] certificacoes) {
         this.certificacoes = certificacoes;
     }
+
+    // public String toString() {}
 }
 
