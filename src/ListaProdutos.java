@@ -29,6 +29,7 @@ public class ListaProdutos {
             // Obter o tipo de produto
             System.out.print(">> ");
             String opt = sc.nextLine();
+            // Caso seja um Produto Alimentar
             if (opt.equals("1")) {
                 // Verificar se o produto tem certificacoes
                 boolean validCert = false;
@@ -36,6 +37,7 @@ public class ListaProdutos {
                     System.out.print("Número de certificações: ");
                     try {
                         int cert = sc.nextInt();
+
                         // Se tiver certificações => Taxa Reduzida
                         if (cert > 0 && cert <= 4) {
                             TaxaReduzida produto = new TaxaReduzida();
@@ -48,64 +50,121 @@ public class ListaProdutos {
                                 String nomeCert = sc.nextLine();
                                 temp[i] = nomeCert;
                             }
-                            // TODO -> Atribuir códigos
-                            // Obter o nome do produto
-                            System.out.print("Insira o nome do produto:\n>> ");
-                            produto.setNome(sc.nextLine());
-                            // Obter a descricao do produto
-                            System.out.print("Insira uma breve descrição do produto:\n>> ");
-                            produto.setDesc(sc.nextLine());
-                            // Obter a quantidade do produto
-                            System.out.println("Insira a quantidade do produto:");
-                            boolean validQuantidade = false;
-                            while (!validQuantidade) {
-                                System.out.print(">> ");
-                                try {
-                                    produto.setQuantidade(sc.nextInt());
-                                    validQuantidade = true;
-                                } catch (InputMismatchException e) {
-                                    System.out.println("[!] Quantidade inválida");
-                                }
-                            }
-                            // Obter o valor unitário
-                            boolean validValor = false;
-                            while (!validValor) {
-                                System.out.print(">> ");
-                                try {
-                                    produto.setValorUnit(sc.nextFloat());
-                                    validValor = true;
-                                } catch (InputMismatchException e) {
-                                    System.out.println("[!] Valor inválido");
-                                }
-                            }
+                            // Obter os dados comuns da classe Produto
+                            getProdInfo(produto);
                             // Definir a taxa do IVA
-                            if (cliente.getLocalizacao().equalsIgnoreCase("continente"))
-                                produto.setIva(6);
-                            else if (cliente.getLocalizacao().equalsIgnoreCase("madeira"))
-                                produto.setIva(5);
-                            else if (cliente.getLocalizacao().equalsIgnoreCase("açores"))
-                                produto.setIva(4);
+                            setTaxaIva(cliente, produto, 6, 5, 4);
+                            // Extras
                             if (cert == 4)
                                 produto.setIva(produto.getIva() - 1);
                             this.produtos.add(produto);
                             validCert = true;
-                        } else if (cert == 0) {
+                        }
+                        // Sem certificados => Taxa intermédia ou normal
+                        else if (cert == 0) {
+                            System.out.println("Selecione a categoria do produto:");
+                            System.out.println("[1] Sem categoria");
+                            System.out.println("[2] Congelados");
+                            System.out.println("[3] Enlatados");
+                            System.out.println("[4] Vinho");
+                            boolean menuTaxa = false;
+                            while (!menuTaxa) {
+                                System.out.print(">> ");
+                                String optTaxa = sc.nextLine();
+
+                                // Taxa Normal
+                                if (optTaxa.equals("1")) {
+                                    TaxaNormal produto = new TaxaNormal();
+                                    // Obter os dados comuns da classe Produto
+                                    getProdInfo(produto);
+                                    // Definir a taxa do IVA
+                                    setTaxaIva(cliente, produto, 23, 22, 16);
+                                    produtos.add(produto);
+                                }
+
+                                // Taxa Intermedia
+                                else if (optTaxa.equals("2") || optTaxa.equals("3") || optTaxa.equals("4")) {
+                                    TaxaIntermedia produto = new TaxaIntermedia();
+                                    // Obter os dados comuns da classe Produto
+                                    getProdInfo(produto);
+                                    // Definir a taxa do IVA
+                                    setTaxaIva(cliente, produto, 13, 12, 9);
+                                    if (optTaxa.equals("4")) {
+                                        produto.setIva(produto.getIva() + 1);
+                                    }
+                                    produtos.add(produto);
+                                }
+                            }
                             validCert = true;
-                        } else {
+                        }
+                        else {
                             System.out.println("[!] Número inválido");
                         }
                     } catch (InputMismatchException e) {
                         System.out.println("[!] Número inválido");
                     }
                 }
+                menu = true;
             }
+            // Caso seja um Produto de Farmácia
+            else if (opt.equals("2")) {
+
+                menu = true;
+            }
+            else
+                System.out.println("[!] Escolha inválida");
         }
-        // TODO -> Criar objeto com a classe correta
     }
 
     public void printProdutos() {
         for (int i = 0; i < this.produtos.size(); ++i) {
             System.out.println(this.produtos.get(i));
         }
+    }
+
+    private void getProdInfo(Produto produto) {
+        Scanner sc = new Scanner(System.in);
+        // TODO -> Atribuir códigos
+        // Obter o nome do produto
+        System.out.print("Insira o nome do produto:\n>> ");
+        produto.setNome(sc.nextLine());
+
+        // Obter a descricao do produto
+        System.out.print("Insira uma breve descrição do produto:\n>> ");
+        produto.setDesc(sc.nextLine());
+
+        // Obter a quantidade do produto
+        System.out.println("Insira a quantidade do produto:");
+        boolean validQuantidade = false;
+        while (!validQuantidade) {
+            System.out.print(">> ");
+            try {
+                produto.setQuantidade(sc.nextInt());
+                validQuantidade = true;
+            } catch (InputMismatchException e) {
+                System.out.println("[!] Quantidade inválida");
+            }
+        }
+
+        // Obter o valor unitário
+        boolean validValor = false;
+        while (!validValor) {
+            System.out.print(">> ");
+            try {
+                produto.setValorUnit(sc.nextFloat());
+                validValor = true;
+            } catch (InputMismatchException e) {
+                System.out.println("[!] Valor inválido");
+            }
+        }
+    }
+
+    private void setTaxaIva(Cliente cliente, Produto produto, int taxaContinente, int taxaMadeira, int taxaAçores) {
+        if (cliente.getLocalizacao().equalsIgnoreCase("continente"))
+            produto.setIva(taxaContinente);
+        else if (cliente.getLocalizacao().equalsIgnoreCase("madeira"))
+            produto.setIva(taxaMadeira);
+        else if (cliente.getLocalizacao().equalsIgnoreCase("açores"))
+            produto.setIva(taxaAçores);
     }
 }
