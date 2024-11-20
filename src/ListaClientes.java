@@ -26,7 +26,28 @@ public class ListaClientes {
         }
     }
 
-    public void addCliente(Cliente cliente) {
+    public void addCliente() {
+        Cliente cliente = new Cliente();
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Insira o nome:\n>> ");
+        cliente.setNome(sc.nextLine());
+        System.out.println("Insira o NIF:");
+        boolean validNif = false;
+        while (!validNif) {
+            System.out.print(">> ");
+            String nif = sc.nextLine();
+            try {
+                int temp = Integer.parseInt(nif);
+                if (Integer.toString(temp).length() == 9)
+                    validNif = true;
+                else
+                    System.out.println("[!] NIF inválido");
+            } catch (NumberFormatException e) {
+                System.out.println("[!] NIF inválido");
+            }
+        }
+        System.out.print("Insira a localização:\n>> ");
+        cliente.setLocalizacao(sc.nextLine());
         clientes.add(cliente);
     }
 
@@ -35,23 +56,28 @@ public class ListaClientes {
         this.printClientes();
         // Recebe input do utilizador
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Insira o nome ou o NIF do cliente\n>> ");
+        System.out.println("Insira o nome ou o NIF do cliente:");
         String input = scanner.nextLine();
+        // Caso seja fornecido um NIF
         try {
             int nif = Integer.parseInt(input);
-            // todo: ADICIONAR VERIFICACAO DO NIF
-
-            // Procura o cliente com o nome dado pelo utilizador
-            boolean found = false;
-            for (Cliente cliente : clientes) {
-                if (cliente.getNif() == nif) {
-                    found = true;
-                    this.edit(cliente);
+            // Verifica se o NIF fornecido é válido
+            if (Integer.toString(nif).length() != 9)
+                System.out.println("[!] NIF inválido");
+            else {
+                // Procura o cliente com o NIF dado pelo utilizador
+                boolean found = false;
+                for (Cliente cliente : clientes) {
+                    if (cliente.getNif() == nif) {
+                        found = true;
+                        this.edit(cliente);
+                    }
                 }
+                if (!found)
+                    System.out.println("[!] Cliente não encontrado");
             }
-            if (!found)
-                System.out.println("[!] Cliente não encontrado");
         }
+        // Caso seja fornecido um nome
         catch (NumberFormatException e) {
             String nome = input;
             // Procura o cliente com o nome dado pelo utilizador
@@ -68,45 +94,22 @@ public class ListaClientes {
     }
 
     private void edit(Cliente cliente) {
-        // Escolhas do utilizador
-        System.out.println("Selecione o que pretende editar:");
-        System.out.println("[1] Nome");
-        System.out.println("[2] NIF");
-        System.out.println("[3] Localização");
-        System.out.println("[0] Sair");
-
-        // Selecao da açao pretendida
-        boolean running = true;
-        Scanner scanner = new Scanner(System.in);
-        while (running) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Insira o novo nome:\n>> ");
+        cliente.setNome(sc.nextLine());
+        System.out.println("Insira o novo NIF:");
+        boolean validNif = false;
+        while (!validNif) {
             System.out.print(">> ");
-            String input = scanner.nextLine();
+            String nif = sc.nextLine();
             try {
-                int choice = Integer.parseInt(input);
-                if (choice == 1) {
-                    System.out.print("Insira o novo nome:\n>> ");
-                    String nome = scanner.nextLine();
-                    cliente.setNome(nome);
-                } else if (choice == 2) {
-                    System.out.print("Insira o novo NIF:\n>> ");
-                    String temp = scanner.nextLine();
-                    try {
-                        int nif = Integer.parseInt(temp);
-                        // todo: ADICIONAR VERIFICACAO DO NIF
-                        cliente.setNif(nif);
-                    } catch (NumberFormatException e) {
-                        System.out.println("[!] NIF inválido");
-                    }
-                } else if (choice == 3) {
-                    System.out.print("Insira a nova localização:\n>> ");
-                    String loc = scanner.nextLine();
-                    cliente.setLocalizacao(loc);
-                } else if (choice == 0) {
-                    running = false;
-                }
+                cliente.setNif(Integer.parseInt(nif));
+                validNif = true;
             } catch (NumberFormatException e) {
-                System.out.println("[!] Escolha inválida");
+                System.out.println("[!] NIF inválido");
             }
         }
+        System.out.print("Insira a nova localização:\n>> ");
+        cliente.setLocalizacao(sc.nextLine());
     }
 }

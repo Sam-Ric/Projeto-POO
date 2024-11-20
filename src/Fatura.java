@@ -41,7 +41,7 @@ public class Fatura {
         this.produto = produto;
     }
 
-    public String toString() {}
+    // public String toString() {}
 
     /*
     public float calcTotalSemIva() {}

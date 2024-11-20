@@ -33,10 +33,6 @@ public class Cliente {
     }
 
     public String toString() {
-        return "Clientes{" +
-                "nome='" + nome + '\'' +
-                ", NIF=" + nif +
-                ", localizacao='" + localizacao + '\'' +
-                '}';
+        return String.format("%20s | %9d | %20s ", nome, nif, localizacao);
     }
 }
