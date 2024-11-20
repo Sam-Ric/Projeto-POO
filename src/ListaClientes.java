@@ -52,7 +52,7 @@ public class ListaClientes {
             if (!found)
                 System.out.println("[!] Cliente não encontrado");
         }
-        catch (Exception e) {
+        catch (NumberFormatException e) {
             String nome = input;
             // Procura o cliente com o nome dado pelo utilizador
             boolean found = false;
@@ -94,7 +94,7 @@ public class ListaClientes {
                         int nif = Integer.parseInt(temp);
                         // todo: ADICIONAR VERIFICACAO DO NIF
                         cliente.setNif(nif);
-                    } catch (Exception e) {
+                    } catch (NumberFormatException e) {
                         System.out.println("[!] NIF inválido");
                     }
                 } else if (choice == 3) {
@@ -104,7 +104,7 @@ public class ListaClientes {
                 } else if (choice == 0) {
                     running = false;
                 }
-            } catch (Exception e) {
+            } catch (NumberFormatException e) {
                 System.out.println("[!] Escolha inválida");
             }
         }
