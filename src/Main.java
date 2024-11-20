@@ -1,5 +1,10 @@
+import java.io.File;
+
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello world!");
+
+    }
+    public void importar(String nomeFicheiro){
+        File ficheiro = new File(nomeFicheiro);
     }
 }
