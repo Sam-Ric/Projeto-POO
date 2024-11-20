@@ -89,7 +89,12 @@ public class ListaProdutos {
                                     getProdInfo(produto);
                                     // Definir a taxa do IVA
                                     setTaxaIva(cliente, produto, 13, 12, 9);
+                                    if (optTaxa.equals("2"))
+                                        produto.setCategoria(CategoriaTaxaIntermedia.congelados);
+                                    if (optTaxa.equals("3"))
+                                        produto.setCategoria(CategoriaTaxaIntermedia.enlatados);
                                     if (optTaxa.equals("4")) {
+                                        produto.setCategoria(CategoriaTaxaIntermedia.vinho);
                                         produto.setIva(produto.getIva() + 1);
                                     }
                                     produtos.add(produto);
