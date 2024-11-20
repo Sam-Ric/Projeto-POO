@@ -100,5 +100,15 @@ public class ListaFaturas {
         this.faturas.add(fatura);
     }
 
-    public void editFatura() {}
+    public void editFatura() {
+        this.printFaturas();
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Insira o numero da fatura: ");
+        boolean validNumFatura = false;
+        while (!validNumFatura) {
+            System.out.print(">> ");
+            String numFatura = sc.nextLine();
+            if(){}
+        }
+    }
 }
