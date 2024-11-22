@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.lang.*;
 
 public class ListaProdutos {
     // Atributos da classe
@@ -113,7 +114,69 @@ public class ListaProdutos {
             }
             // Caso seja um Produto de Farmácia
             else if (opt.equals("2")) {
+                boolean validCert = false;
+                System.out.println("[1] Produto com prescricao");
+                System.out.println("[2] Produto sem prescricao");
+                while (!validCert) {
+                    System.out.print(">> ");
+                    String optCert = sc.nextLine();
+                    if (optCert.equals("1")) {
+                        Prescricao produto = new Prescricao();
+                        System.out.println("Insira o medico que prescreveu a receita");
+                        boolean inteiroStr=true;
 
+                        while (!inteiroStr) {
+                            System.out.print(">> ");
+                            String optMedico = sc.nextLine();
+                            if(intInSrt(optMedico)) {
+                                produto.setMedico(optMedico);
+                                inteiroStr=false;
+                            }
+                        }
+                    }
+                    if(optCert.equals("2")) {
+                        Normal produtoNormal = new Normal();
+                        System.out.println("Insira o tipo de produto:");
+                        System.out.println("[1] Produto de beleza");
+                        System.out.println("[2] Produto de bem estar");
+                        System.out.println("[3] Produto para bebes");
+                        System.out.println("[4] Produto para animais");
+                        System.out.println("[5] Outros produtos");
+                        boolean menuNormal = true;
+                        while (!menuNormal) {
+                            System.out.print(">> ");
+                            String optNormal = sc.nextLine();
+                            if(optNormal.length()==1) {
+                                if (optNormal.equals("1")) {
+                                    produtoNormal.setCategoria(CategoriaNormal.beleza);
+                                    menuNormal=false;
+                                }
+                                if (optNormal.equals("2")) {
+                                    produtoNormal.setCategoria(CategoriaNormal.bemEstar);
+                                    menuNormal=false;
+                                }
+                                if (optNormal.equals("3")) {
+                                    produtoNormal.setCategoria(CategoriaNormal.bebes);
+                                    menuNormal=false;
+                                }
+                                if (optNormal.equals("4")) {
+                                    produtoNormal.setCategoria(CategoriaNormal.animais);
+                                    menuNormal=false;
+                                }
+                                if (optNormal.equals("5")) {
+                                    produtoNormal.setCategoria(CategoriaNormal.outros);
+                                    menuNormal=false;
+                                }
+                                else{
+                                    System.out.println("categoria invalida");
+                                }
+                            }
+                            else{
+                                System.out.println("categoria invalida");
+                            }
+                        }
+                    }
+                }
                 menu = true;
             }
             else
@@ -122,8 +185,8 @@ public class ListaProdutos {
     }
 
     public void printProdutos() {
-        for (int i = 0; i < this.produtos.size(); ++i) {
-            System.out.println(this.produtos.get(i));
+        for (Produto produto : this.produtos) {
+            System.out.println(produto);
         }
     }
 
@@ -172,4 +235,14 @@ public class ListaProdutos {
         else if (cliente.getLocalizacao().equalsIgnoreCase("açores"))
             produto.setIva(taxaAçores);
     }
+    private boolean intInSrt(String str){
+        boolean res=true;
+        for (int i = 0; i < str.length(); i++) {
+            if(!Character.isDigit(str.charAt(i))){
+                res=false ;
+            }
+        }
+        return res;
+    }
 }
+
