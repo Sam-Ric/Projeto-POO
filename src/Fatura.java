@@ -3,7 +3,7 @@ public class Fatura {
     private int numFatura;
     private Cliente cliente;
     private Data data;
-    private ListaProdutos produto;
+    private ListaProdutos produtos;
 
     // Construtores
     public Fatura() {}
@@ -33,25 +33,58 @@ public class Fatura {
         this.data = data;
     }
 
-    public ListaProdutos getProduto() {
-        return produto;
+    public ListaProdutos getProdutos() {
+        return produtos;
     }
 
-    public void setProduto(ListaProdutos produto) {
-        this.produto = produto;
+    public void setProdutos(ListaProdutos produtos) {
+        this.produtos = produtos;
     }
 
-    // public String toString() {}
+    public String toString() {
+        return String.format("%3d | %20s | %20s | %3d | %5.2f | %5.2f", numFatura, cliente.getNome(), cliente.getLocalizacao(), produtos.getProdutos().size(), calcTotalSemIva(), calcTotalComIva());
+    }
 
-    /*
-    public float calcTotalSemIva() {}
+    public float calcTotalSemIva() {
+        float total = 0;
+        for (Produto produto : produtos.getProdutos())
+            total += produto.calcTotalSemIva();
+        return total;
+    }
 
-    public float calcTotalComIva() {}
+    public float calcTotalComIva() {
+        float total = 0;
+        for (Produto produto : produtos.getProdutos())
+            total += produto.calcTotalComIva();
+        return total;
+    }
 
-    public float calcValorIva() {}
+    public float calcValorIva() {
+        return calcTotalComIva() - calcTotalSemIva();
+    }
+    
+    public void printFatura(int numFatura) {
+        System.out.println("\n========== FATURA Nº" + numFatura + "==========");
+        System.out.println("> Cliente");
+        System.out.println("   Nome: " + cliente.getNome());
+        System.out.println("   NIF: " + cliente.getNif());
+        System.out.println("   Localizacao: " + cliente.getLocalizacao());
+        System.out.println("> Produtos");
+        for (Produto produto : produtos.getProdutos()) {
+            System.out.println("   --- " + produto.getNome() + " - " + produto.getCodigo() + " ---");
+            System.out.println("    Descrição: " + produto.getDesc());
+            System.out.println("    Quantidade: " + produto.getQuantidade());
+            System.out.println("    Valor Unitário: " + produto.getValorUnit());
+            System.out.println("    Taxa IVA: " + produto.getIva());
+            System.out.println("    Valor s/ IVA: " + produto.calcTotalSemIva());
+            System.out.println("    Valor c/ IVA: " + produto.calcTotalComIva());
+            System.out.println("    Valor do IVA: " + produto.calcValorIva());
+        }
+        System.out.println("> Fatura");
+        System.out.println("   Valor Total s/ IVA: " + calcTotalSemIva());
+        System.out.println("   Valor Total c/ IVA: " + calcTotalComIva());
+        System.out.println("   Valor Total do IVA: " + calcValorIva() + "\n");
+    }
 
-    public void printFatura() {}
-
-     */
 }
 

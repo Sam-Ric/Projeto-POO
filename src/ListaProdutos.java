@@ -120,22 +120,32 @@ public class ListaProdutos {
                 while (!validCert) {
                     System.out.print(">> ");
                     String optCert = sc.nextLine();
+                    // Caso seja um produto com prescrição
                     if (optCert.equals("1")) {
                         Prescricao produto = new Prescricao();
                         System.out.println("Insira o medico que prescreveu a receita");
-                        boolean inteiroStr=true;
 
-                        while (!inteiroStr) {
+                        boolean validNome = false;
+                        while (!validNome) {
                             System.out.print(">> ");
-                            String optMedico = sc.nextLine();
-                            if(intInSrt(optMedico)) {
-                                produto.setMedico(optMedico);
-                                inteiroStr=false;
-                            }
+                            String medico = sc.nextLine();
+                            validNome = verifyNome(medico);
+                            if (validNome)
+                                produto.setMedico(medico);
+                            else
+                                System.out.println("[!] Nome inválido");
                         }
+
+                        // Obter os dados do produto com prescrição
+                        getProdInfo(produto);
+                        // Definir a taxa do IVA
+                        setTaxaIva(cliente, produto, 6, 5, 4);
+                        // Adicionar o produto ao ArrayList de produtos da respetiva fatura
+                        produtos.add(produto);
                     }
+                    // Caso seja um produto sem prescrição
                     if(optCert.equals("2")) {
-                        Normal produtoNormal = new Normal();
+                        Normal produto = new Normal();
                         System.out.println("Insira o tipo de produto:");
                         System.out.println("[1] Produto de beleza");
                         System.out.println("[2] Produto de bem estar");
@@ -146,35 +156,38 @@ public class ListaProdutos {
                         while (!menuNormal) {
                             System.out.print(">> ");
                             String optNormal = sc.nextLine();
-                            if(optNormal.length()==1) {
-                                if (optNormal.equals("1")) {
-                                    produtoNormal.setCategoria(CategoriaNormal.beleza);
-                                    menuNormal=false;
-                                }
-                                if (optNormal.equals("2")) {
-                                    produtoNormal.setCategoria(CategoriaNormal.bemEstar);
-                                    menuNormal=false;
-                                }
-                                if (optNormal.equals("3")) {
-                                    produtoNormal.setCategoria(CategoriaNormal.bebes);
-                                    menuNormal=false;
-                                }
-                                if (optNormal.equals("4")) {
-                                    produtoNormal.setCategoria(CategoriaNormal.animais);
-                                    menuNormal=false;
-                                }
-                                if (optNormal.equals("5")) {
-                                    produtoNormal.setCategoria(CategoriaNormal.outros);
-                                    menuNormal=false;
-                                }
-                                else{
-                                    System.out.println("categoria invalida");
-                                }
+                            if (optNormal.equals("1")) {
+                                produto.setCategoria(CategoriaNormal.beleza);
+                                menuNormal = false;
                             }
-                            else{
-                                System.out.println("categoria invalida");
+                            if (optNormal.equals("2")) {
+                                produto.setCategoria(CategoriaNormal.bemEstar);
+                                menuNormal = false;
+                            }
+                            if (optNormal.equals("3")) {
+                                produto.setCategoria(CategoriaNormal.bebes);
+                                menuNormal = false;
+                            }
+                            if (optNormal.equals("4")) {
+                                produto.setCategoria(CategoriaNormal.animais);
+                                menuNormal = false;
+                            }
+                            if (optNormal.equals("5")) {
+                                produto.setCategoria(CategoriaNormal.outros);
+                                menuNormal = false;
+                            }
+                            else {
+                                System.out.println("[!] Categoria inválida");
                             }
                         }
+                        // Obter os dados do produto sem prescrição
+                        getProdInfo(produto);
+                        // Definir a taxa do IVA
+                        setTaxaIva(cliente, produto, 23, 23, 23);
+                        if (produto.getCategoria() == CategoriaNormal.animais)
+                            produto.setIva(produto.getIva() - 1);
+                        // Adicionar o produto ao ArrayList de produtos da respetiva fatura
+                        produtos.add(produto);
                     }
                 }
                 menu = true;
@@ -235,12 +248,16 @@ public class ListaProdutos {
         else if (cliente.getLocalizacao().equalsIgnoreCase("açores"))
             produto.setIva(taxaAçores);
     }
-    private boolean intInSrt(String str){
-        boolean res=true;
+
+    private boolean verifyNome(String str){
+        boolean res = true;
+        // Verifica se o nome começa ou acaba com algum caractere que não seja uma letra
+        if (!Character.isLetter(str.charAt(0)) || !Character.isLetter(str.charAt(str.length()-1)))
+            res = false;
+        // Verifica se existem caracteres que não sejam letras ou espaços dentro da string com o nome
         for (int i = 0; i < str.length(); i++) {
-            if(!Character.isDigit(str.charAt(i))){
-                res=false ;
-            }
+            if(!Character.isLetter(str.charAt(i)) && str.charAt(i) != ' ')
+                res = false ;
         }
         return res;
     }

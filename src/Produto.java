@@ -43,7 +43,7 @@ public class Produto {
         this.quantidade = quantidade;
     }
 
-    public double getValorUnit() {
+    public float getValorUnit() {
         return valorUnit;
     }
 
@@ -61,14 +61,19 @@ public class Produto {
 
     // public String toString() {}
 
-    /*
-    public float calcValorSemIva() {}
+    public float calcTotalSemIva() {
+        // valorProduto = valorUnit + quantidade
+        return valorUnit * quantidade;
+    }
 
-    public float calcValorComIva() {}
+    public float calcTotalComIva() {
+        // valorProduto = (valorUnit + valorUnit * taxaIva) * quantidade
+        return (valorUnit + valorUnit * (iva / 100)) * quantidade;
+    }
 
-    public int calcTaxaIva() {}
-
-    public float calcValorIva() {}
-
-     */
+    public float calcValorIva() {
+        float res = 0;
+        res = calcTotalComIva() - calcTotalSemIva();
+        return res;
+    }
 }
