@@ -62,8 +62,8 @@ public class Fatura {
     public float calcValorIva() {
         return calcTotalComIva() - calcTotalSemIva();
     }
-    
-    public void printFatura(int numFatura) {
+
+    public void printFatura() {
         System.out.println("\n========== FATURA Nº" + numFatura + "==========");
         System.out.println("> Cliente");
         System.out.println("   Nome: " + cliente.getNome());

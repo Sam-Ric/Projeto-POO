@@ -7,7 +7,9 @@ public class ListaFaturas {
     private ArrayList<Fatura> faturas;
 
     // Construtores
-    public ListaFaturas() {}
+    public ListaFaturas() {
+        faturas = new ArrayList<Fatura>();
+    }
 
     // Metodos de acesso
     public ArrayList<Fatura> getFaturas() {
@@ -20,12 +22,13 @@ public class ListaFaturas {
 
 
     public void printFaturas() {
+        System.out.println(" [HEADER] ");
         for(Fatura fatura : faturas) {
             System.out.println(fatura);
         }
     }
 
-    public void addFatura(ListaClientes clientes, ListaProdutos produtos) {
+    public void addFatura(ListaClientes clientes) {
         Fatura fatura = new Fatura();
         Scanner sc = new Scanner(System.in);
         // Atribuir um número à fatura com base no número de faturas presente no ArrayList
@@ -41,10 +44,13 @@ public class ListaFaturas {
             System.out.println("[0] Finalizar");
             String opcao = sc.nextLine();
             if (opcao.equals("1")) {
-                produtos.addProduto(fatura.getCliente());
+                fatura.getProdutos().addProduto(fatura.getCliente());
             }
             if (opcao.equals("2")) {
-                produtos.printProdutos();
+                if (fatura.getProdutos().getProdutos().size() > 0)
+                    fatura.getProdutos().printProdutos();
+                else
+                    System.out.println("[!] Ainda não foram adicionados produtos!");
             }
             // TODO -> Implementar função para remover um produto do ArrayList de Produtos
             /*
@@ -90,7 +96,12 @@ public class ListaFaturas {
 
     private void getFaturaInfo(Fatura fatura, ListaClientes clientes) {
         Scanner sc = new Scanner(System.in);
+        // Caso não existam clientes registados, o utilizador deve registar um
+        if (clientes.getClientes().size() == 0) {
+            clientes.addCliente();
+        }
         // Imprimir todos os clientes presentes no ArrayList de Clientes
+        System.out.println("==> CLIENTES");
         clientes.printClientes();
         // Associar um cliente à fatura
         System.out.println("Insira o nome do cliente que pretende associar:");

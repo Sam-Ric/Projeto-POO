@@ -8,7 +8,9 @@ public class ListaProdutos {
     private ArrayList<Produto> produtos;
 
     // Construtores
-    public ListaProdutos() {}
+    public ListaProdutos() {
+        produtos = new ArrayList<Produto>();
+    }
 
     // Metodos de acesso
     public ArrayList<Produto> getProdutos() {

@@ -7,7 +7,7 @@ public class ListaClientes {
 
     // Construtores
     public ListaClientes() {
-
+        clientes = new ArrayList<Cliente>();
     }
 
     // Metodos de acesso
@@ -53,22 +53,38 @@ public class ListaClientes {
 
     public void editCliente() {
         // Imprime todos os clientes para que o utilizador possa selecionar o nome do cliente pretendido
-        this.printClientes();
-        // Recebe input do utilizador
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Insira o nome ou o NIF do cliente:");
-        String input = scanner.nextLine();
-        // Caso seja fornecido um NIF
-        try {
-            int nif = Integer.parseInt(input);
-            // Verifica se o NIF fornecido é válido
-            if (Integer.toString(nif).length() != 9)
-                System.out.println("[!] NIF inválido");
-            else {
-                // Procura o cliente com o NIF dado pelo utilizador
+        if (clientes.size() != 0) {
+            this.printClientes();
+            // Recebe input do utilizador
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("Insira o nome ou o NIF do cliente:");
+            String input = scanner.nextLine();
+            // Caso seja fornecido um NIF
+            try {
+                int nif = Integer.parseInt(input);
+                // Verifica se o NIF fornecido é válido
+                if (Integer.toString(nif).length() != 9)
+                    System.out.println("[!] NIF inválido");
+                else {
+                    // Procura o cliente com o NIF dado pelo utilizador
+                    boolean found = false;
+                    for (Cliente cliente : clientes) {
+                        if (cliente.getNif() == nif) {
+                            found = true;
+                            this.edit(cliente);
+                        }
+                    }
+                    if (!found)
+                        System.out.println("[!] Cliente não encontrado");
+                }
+            }
+            // Caso seja fornecido um nome
+            catch (NumberFormatException e) {
+                String nome = input;
+                // Procura o cliente com o nome dado pelo utilizador
                 boolean found = false;
                 for (Cliente cliente : clientes) {
-                    if (cliente.getNif() == nif) {
+                    if (cliente.getNome().equalsIgnoreCase(nome)) {
                         found = true;
                         this.edit(cliente);
                     }
@@ -76,21 +92,8 @@ public class ListaClientes {
                 if (!found)
                     System.out.println("[!] Cliente não encontrado");
             }
-        }
-        // Caso seja fornecido um nome
-        catch (NumberFormatException e) {
-            String nome = input;
-            // Procura o cliente com o nome dado pelo utilizador
-            boolean found = false;
-            for (Cliente cliente : clientes) {
-                if (cliente.getNome().equalsIgnoreCase(nome)) {
-                    found = true;
-                    this.edit(cliente);
-                }
-            }
-            if (!found)
-                System.out.println("[!] Cliente não encontrado");
-        }
+        } else
+            System.out.println("[!] Não existem clientes registados");
     }
 
     private void edit(Cliente cliente) {
