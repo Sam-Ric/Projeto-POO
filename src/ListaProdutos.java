@@ -207,15 +207,15 @@ public class ListaProdutos {
 
     private void getProdInfo(Produto produto) {
         Scanner sc = new Scanner(System.in);
-        // TODO -> Atribuir códigos
+        
         // Obter o nome do produto
         System.out.print("Insira o nome do produto:\n>> ");
         produto.setNome(sc.nextLine());
-
+    
         // Obter a descricao do produto
         System.out.print("Insira uma breve descrição do produto:\n>> ");
         produto.setDesc(sc.nextLine());
-
+    
         // Obter a quantidade do produto
         System.out.println("Insira a quantidade do produto:");
         boolean validQuantidade = false;
@@ -226,11 +226,13 @@ public class ListaProdutos {
                 validQuantidade = true;
             } catch (InputMismatchException e) {
                 System.out.println("[!] Quantidade inválida");
+                sc.nextLine(); // Limpa a entrada inválida
             }
         }
-
+    
         // Obter o valor unitário
         boolean validValor = false;
+        System.out.println("Insira o valor unitário do produto:");
         while (!validValor) {
             System.out.print(">> ");
             try {
@@ -238,10 +240,10 @@ public class ListaProdutos {
                 validValor = true;
             } catch (InputMismatchException e) {
                 System.out.println("[!] Valor inválido");
+                sc.nextLine(); // Limpa a entrada inválida
             }
         }
     }
-
     private void setTaxaIva(Cliente cliente, Produto produto, int taxaContinente, int taxaMadeira, int taxaAçores) {
         if (cliente.getLocalizacao().equalsIgnoreCase("continente"))
             produto.setIva(taxaContinente);

@@ -6,7 +6,7 @@ public class Fatura {
     private ListaProdutos produtos;
 
     // Construtores
-    public Fatura() {}
+    public Fatura() {this.produtos = new ListaProdutos();}
 
     // Metodos de acesso
     public int getNumFatura() {

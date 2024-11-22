@@ -44,7 +44,7 @@ public class ListaFaturas {
             System.out.println("[0] Finalizar");
             String opcao = sc.nextLine();
             if (opcao.equals("1")) {
-                fatura.getProdutos().addProduto(fatura.getCliente());
+                fatura.getProdutos().addProduto(fatura.getCliente()); 
             }
             if (opcao.equals("2")) {
                 if (fatura.getProdutos().getProdutos().size() > 0)
