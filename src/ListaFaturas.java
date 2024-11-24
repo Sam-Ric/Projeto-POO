@@ -22,9 +22,13 @@ public class ListaFaturas {
 
 
     public void printFaturas() {
-        System.out.println(" [HEADER] ");
-        for(Fatura fatura : faturas) {
-            System.out.println(fatura);
+        if (faturas.size() == 0)
+            System.out.println("[!] Não existem faturas para imprimir!");
+        else {
+            System.out.println(String.format(" %-3s | %-20s | %-20s | %-11s | %-12s | %-12s", "Nº", "CLIENTE", "LOCALIZAÇÃO", "Nº PRODUTOS", "TOTAL S/ IVA", "TOTAL C/ IVA"));
+            for (Fatura fatura : faturas) {
+                System.out.println(fatura);
+            }
         }
     }
 
@@ -38,15 +42,15 @@ public class ListaFaturas {
         // Permitir ao utilizador realizar operações no ArrayList de Produtos da fatura
         boolean addingProdutos = true;
         while (addingProdutos) {
-            System.out.println("[1] Adicionar produto");
+            System.out.println("\n[1] Adicionar produto");
             System.out.println("[2] Ver produtos");
             System.out.println("[3] Remover produto");
-            System.out.println("[0] Finalizar");
+            System.out.println("[0] Finalizar\n>> ");
             String opcao = sc.nextLine();
             if (opcao.equals("1")) {
                 fatura.getProdutos().addProduto(fatura.getCliente()); 
             }
-            if (opcao.equals("2")) {
+            else if (opcao.equals("2")) {
                 if (fatura.getProdutos().getProdutos().size() > 0)
                     fatura.getProdutos().printProdutos();
                 else
@@ -58,7 +62,7 @@ public class ListaFaturas {
                 produtos.removeProduto();
             }
              */
-            if (opcao.equals("0")) {
+            else if (opcao.equals("0")) {
                 addingProdutos = false;
             }
             else {
@@ -73,7 +77,7 @@ public class ListaFaturas {
         printFaturas();
         // Selecionar uma das faturas com base nos respetivos números
         Scanner sc = new Scanner(System.in);
-        System.out.println("Insira o número da fatura que pretende editar:");
+        System.out.println("\nInsira o número da fatura que pretende editar:");
         int numFatura = 0;
         boolean valid = false;
         while (!valid) {
@@ -100,27 +104,14 @@ public class ListaFaturas {
         if (clientes.getClientes().size() == 0) {
             clientes.addCliente();
         }
-        // Imprimir todos os clientes presentes no ArrayList de Clientes
-        System.out.println("==> CLIENTES");
-        clientes.printClientes();
         // Associar um cliente à fatura
-        System.out.println("Insira o nome do cliente que pretende associar:");
-        boolean foundNomeCliente = false;
-        while (!foundNomeCliente) {
-            System.out.print(">> ");
-            String nomeCliente = sc.nextLine();
-            for (Cliente cliente : clientes.getClientes() ) {
-                if (cliente.getNome().equals(nomeCliente)) {
-                    fatura.setCliente(cliente);
-                    foundNomeCliente = true;
-                }
-            }
-            if (!foundNomeCliente) {
-                System.out.println("[!] Cliente não encontrado");
-            }
-        }
+        Cliente cliente = null;
+        while (fatura.getCliente() == null)
+            fatura.setCliente(clientes.searchCliente());
+
+
         // Obter a data da fatura
-        System.out.println("Insira a data: (dd/mm/aaaa)");
+        System.out.println("\nInsira a data: (dd/mm/aaaa)");
         Data data = new Data();
         boolean foundData = false;
         while (!foundData) {

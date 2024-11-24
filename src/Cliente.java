@@ -1,8 +1,14 @@
+enum Localizacao {
+    continente,
+    madeira,
+    acores
+}
+
 public class Cliente {
     // Atributos da classe
     protected String nome;
     protected int nif;
-    protected String localizacao;
+    protected Localizacao localizacao;
 
     // Construtores
     public Cliente() {}
@@ -24,15 +30,22 @@ public class Cliente {
         this.nif = NIF;
     }
 
-    public String getLocalizacao() {
+    public Localizacao getLocalizacao() {
         return localizacao;
     }
 
-    public void setLocalizacao(String localizacao) {
+    public void setLocalizacao(Localizacao localizacao) {
         this.localizacao = localizacao;
     }
 
     public String toString() {
-        return String.format("%20s | %9d | %20s ", nome, nif, localizacao);
+        String loc = "N/A";
+        if (localizacao == Localizacao.continente)
+            loc = "Portugal Continental";
+        else if (localizacao == Localizacao.madeira)
+            loc = "Madeira";
+        else if (localizacao == Localizacao.acores)
+            loc = "Açores";
+        return String.format(" %-25s | %-9d | %-20s ", nome, nif, loc);
     }
 }

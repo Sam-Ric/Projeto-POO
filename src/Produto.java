@@ -59,7 +59,17 @@ public class Produto {
         this.iva = iva;
     }
 
-    // public String toString() {}
+    public String toString() {
+        return "   ==> " + nome +
+                "    Código: " + codigo + "\n" +
+                "    Descrição: " + desc + "\n" +
+                "    Quantidade: " + quantidade + "\n" +
+                "    Valor Unitário: " + valorUnit + "\n" +
+                "    Taxa IVA: " + iva + "\n" +
+                "    Valor s/ IVA: " + calcTotalSemIva() + "\n" +
+                "    Valor c/ IVA: " + calcTotalComIva() + "\n" +
+                "    Valor do IVA: " + calcValorIva();
+    }
 
     public float calcTotalSemIva() {
         // valorProduto = valorUnit + quantidade

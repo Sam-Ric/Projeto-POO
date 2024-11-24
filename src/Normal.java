@@ -21,4 +21,28 @@ public class Normal extends ProdFarmacia {
     public void setCategoria(CategoriaNormal categoria) {
         this.categoria = categoria;
     }
+
+    public String toString() {
+        String strCategoria = "N/A";
+        if (categoria == CategoriaNormal.beleza)
+            strCategoria = "Beleza";
+        else if (categoria == CategoriaNormal.bemEstar)
+            strCategoria = "Bem Estar";
+        else if (categoria == CategoriaNormal.bebes)
+            strCategoria = "Bebes";
+        else if (categoria == CategoriaNormal.animais)
+            strCategoria = "Animais";
+        else if (categoria == CategoriaNormal.outros)
+            strCategoria = "Outros";
+        return "   ==> " + nome +
+                "    Código: " + codigo + "\n" +
+                "    Descrição: " + desc + "\n" +
+                "    Categoria: " + strCategoria + "\n" +
+                "    Quantidade: " + quantidade + "\n" +
+                "    Valor Unitário: " + valorUnit + "\n" +
+                "    Taxa IVA: " + iva + "\n" +
+                "    Valor s/ IVA: " + calcTotalSemIva() +
+                "    Valor c/ IVA: " + calcTotalComIva() +
+                "    Valor do IVA: " + calcValorIva();
+    }
 }

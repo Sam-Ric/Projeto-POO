@@ -3,6 +3,9 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.lang.*;
 
+// TODO -> Perguntar se devemos definir metodo verifyNome() como static
+
+
 public class ListaProdutos {
     // Atributos da classe
     private ArrayList<Produto> produtos;
@@ -24,7 +27,7 @@ public class ListaProdutos {
 
     public void addProduto(Cliente cliente) {
         Scanner sc = new Scanner(System.in);
-        System.out.println("Selecione o tipo de produto:");
+        System.out.println("\nSelecione o tipo de produto:");
         System.out.println("[1] Produto Alimentar");
         System.out.println("[2] Produto de Farmácia");
         boolean menu = false;
@@ -34,18 +37,41 @@ public class ListaProdutos {
             String opt = sc.nextLine();
             // Caso seja um Produto Alimentar
             if (opt.equals("1")) {
+                // Verificar se o produto é biológico
+                boolean biologico = false;
+                System.out.println("O produto é biológico?");
+                System.out.println("[1] Sim");
+                System.out.println("[2] Não");
+                boolean validBio = false;
+                while (!validBio) {
+                    System.out.print(">> ");
+                    String op = sc.nextLine();
+                    switch (op) {
+                        case "1":
+                            biologico = true;
+                            validBio = true;
+                            break;
+                        case "2":
+                            biologico = false;
+                            validBio = true;
+                            break;
+                    }
+                    if (!validBio)
+                        System.out.println("[!] Escolha inválida");
+                }
                 // Verificar se o produto tem certificacoes
                 boolean validCert = false;
                 while (!validCert) {
-                    System.out.print("Número de certificações: ");
+                    System.out.print("\nNúmero de certificações: ");
                     try {
                         int cert = sc.nextInt();
 
                         // Se tiver certificações => Taxa Reduzida
                         if (cert > 0 && cert <= 4) {
                             TaxaReduzida produto = new TaxaReduzida();
+                            produto.setBiologico(biologico);
                             // Obter os certificados
-                            String[] temp = new String[cert + 1];
+                            String[] temp = new String[cert];
                             // TODO -> Perguntar como funciona a atribuição de certificações
                             System.out.println("Insira os nomes das certificações:");
                             for (int i = 0; i < cert; i++) {
@@ -53,6 +79,7 @@ public class ListaProdutos {
                                 String nomeCert = sc.nextLine();
                                 temp[i] = nomeCert;
                             }
+                            produto.setCertificacoes(temp);
                             // Obter os dados comuns da classe Produto
                             getProdInfo(produto);
                             // Definir a taxa do IVA
@@ -60,12 +87,17 @@ public class ListaProdutos {
                             // Extras
                             if (cert == 4)
                                 produto.setIva(produto.getIva() - 1);
-                            this.produtos.add(produto);
+                            if (biologico)
+                                if (produto.getIva() > 10)
+                                    produto.setIva(produto.getIva() - 10);
+                                else
+                                    produto.setIva(0);
+                            produtos.add(produto);
                             validCert = true;
                         }
                         // Sem certificados => Taxa intermédia ou normal
                         else if (cert == 0) {
-                            System.out.println("Selecione a categoria do produto:");
+                            System.out.println("\nSelecione a categoria do produto:");
                             System.out.println("[1] Sem categoria");
                             System.out.println("[2] Congelados");
                             System.out.println("[3] Enlatados");
@@ -78,16 +110,24 @@ public class ListaProdutos {
                                 // Taxa Normal
                                 if (optTaxa.equals("1")) {
                                     TaxaNormal produto = new TaxaNormal();
+                                    produto.setBiologico(biologico);
                                     // Obter os dados comuns da classe Produto
                                     getProdInfo(produto);
                                     // Definir a taxa do IVA
                                     setTaxaIva(cliente, produto, 23, 22, 16);
+                                    if (biologico)
+                                        if (produto.getIva() > 10)
+                                            produto.setIva(produto.getIva() - 10);
+                                        else
+                                            produto.setIva(0);
                                     produtos.add(produto);
+                                    menuTaxa = true;
                                 }
 
                                 // Taxa Intermedia
                                 else if (optTaxa.equals("2") || optTaxa.equals("3") || optTaxa.equals("4")) {
                                     TaxaIntermedia produto = new TaxaIntermedia();
+                                    produto.setBiologico(biologico);
                                     // Obter os dados comuns da classe Produto
                                     getProdInfo(produto);
                                     // Definir a taxa do IVA
@@ -100,7 +140,13 @@ public class ListaProdutos {
                                         produto.setCategoria(CategoriaTaxaIntermedia.vinho);
                                         produto.setIva(produto.getIva() + 1);
                                     }
+                                    if (biologico)
+                                        if (produto.getIva() > 10)
+                                            produto.setIva(produto.getIva() - 10);
+                                        else
+                                            produto.setIva(0);
                                     produtos.add(produto);
+                                    menuTaxa = true;
                                 }
                             }
                             validCert = true;
@@ -116,16 +162,16 @@ public class ListaProdutos {
             }
             // Caso seja um Produto de Farmácia
             else if (opt.equals("2")) {
-                boolean validCert = false;
-                System.out.println("[1] Produto com prescricao");
+                boolean validProd = false;
+                System.out.println("\n[1] Produto com prescricao");
                 System.out.println("[2] Produto sem prescricao");
-                while (!validCert) {
+                while (!validProd) {
                     System.out.print(">> ");
                     String optCert = sc.nextLine();
                     // Caso seja um produto com prescrição
                     if (optCert.equals("1")) {
                         Prescricao produto = new Prescricao();
-                        System.out.println("Insira o medico que prescreveu a receita");
+                        System.out.println("\nInsira o medico que prescreveu a receita");
 
                         boolean validNome = false;
                         while (!validNome) {
@@ -144,43 +190,43 @@ public class ListaProdutos {
                         setTaxaIva(cliente, produto, 6, 5, 4);
                         // Adicionar o produto ao ArrayList de produtos da respetiva fatura
                         produtos.add(produto);
+                        validProd = true;
                     }
                     // Caso seja um produto sem prescrição
-                    if(optCert.equals("2")) {
+                    else if (optCert.equals("2")) {
                         Normal produto = new Normal();
-                        System.out.println("Insira o tipo de produto:");
+                        System.out.println("\nInsira o tipo de produto:");
                         System.out.println("[1] Produto de beleza");
                         System.out.println("[2] Produto de bem estar");
                         System.out.println("[3] Produto para bebes");
                         System.out.println("[4] Produto para animais");
                         System.out.println("[5] Outros produtos");
-                        boolean menuNormal = true;
+                        boolean menuNormal = false;
                         while (!menuNormal) {
                             System.out.print(">> ");
                             String optNormal = sc.nextLine();
                             if (optNormal.equals("1")) {
                                 produto.setCategoria(CategoriaNormal.beleza);
-                                menuNormal = false;
+                                menuNormal = true;
                             }
-                            if (optNormal.equals("2")) {
+                            else if (optNormal.equals("2")) {
                                 produto.setCategoria(CategoriaNormal.bemEstar);
-                                menuNormal = false;
+                                menuNormal = true;
                             }
-                            if (optNormal.equals("3")) {
+                            else if (optNormal.equals("3")) {
                                 produto.setCategoria(CategoriaNormal.bebes);
-                                menuNormal = false;
+                                menuNormal = true;
                             }
-                            if (optNormal.equals("4")) {
+                            else if (optNormal.equals("4")) {
                                 produto.setCategoria(CategoriaNormal.animais);
-                                menuNormal = false;
+                                menuNormal = true;
                             }
-                            if (optNormal.equals("5")) {
+                            else if (optNormal.equals("5")) {
                                 produto.setCategoria(CategoriaNormal.outros);
-                                menuNormal = false;
+                                menuNormal = true;
                             }
-                            else {
+                            else
                                 System.out.println("[!] Categoria inválida");
-                            }
                         }
                         // Obter os dados do produto sem prescrição
                         getProdInfo(produto);
@@ -190,6 +236,7 @@ public class ListaProdutos {
                             produto.setIva(produto.getIva() - 1);
                         // Adicionar o produto ao ArrayList de produtos da respetiva fatura
                         produtos.add(produto);
+                        validProd = true;
                     }
                 }
                 menu = true;
@@ -200,8 +247,10 @@ public class ListaProdutos {
     }
 
     public void printProdutos() {
-        for (Produto produto : this.produtos) {
-            System.out.println(produto);
+        for (int i = 0; i < produtos.size(); i++) {
+            System.out.println(produtos.get(i));
+            if (i != produtos.size() - 1)
+                System.out.print("\n");
         }
     }
 
@@ -209,51 +258,53 @@ public class ListaProdutos {
         Scanner sc = new Scanner(System.in);
         
         // Obter o nome do produto
-        System.out.print("Insira o nome do produto:\n>> ");
+        System.out.print("\nInsira o nome do produto:\n>> ");
         produto.setNome(sc.nextLine());
     
         // Obter a descricao do produto
-        System.out.print("Insira uma breve descrição do produto:\n>> ");
+        System.out.print("\nInsira uma breve descrição do produto:\n>> ");
         produto.setDesc(sc.nextLine());
     
         // Obter a quantidade do produto
-        System.out.println("Insira a quantidade do produto:");
+        System.out.println("\nInsira a quantidade do produto:");
         boolean validQuantidade = false;
         while (!validQuantidade) {
             System.out.print(">> ");
+            String quantidade = sc.nextLine();
             try {
-                produto.setQuantidade(sc.nextInt());
+                produto.setQuantidade(Integer.parseInt(quantidade));
                 validQuantidade = true;
-            } catch (InputMismatchException e) {
+            } catch (NumberFormatException e) {
                 System.out.println("[!] Quantidade inválida");
-                sc.nextLine(); // Limpa a entrada inválida
             }
         }
     
         // Obter o valor unitário
         boolean validValor = false;
-        System.out.println("Insira o valor unitário do produto:");
+        System.out.println("\nInsira o valor unitário do produto:");
         while (!validValor) {
             System.out.print(">> ");
+            String valor = sc.nextLine();
             try {
-                produto.setValorUnit(sc.nextFloat());
+                produto.setValorUnit(Float.parseFloat(valor));
                 validValor = true;
-            } catch (InputMismatchException e) {
+            } catch (NumberFormatException e) {
                 System.out.println("[!] Valor inválido");
-                sc.nextLine(); // Limpa a entrada inválida
             }
         }
     }
-    private void setTaxaIva(Cliente cliente, Produto produto, int taxaContinente, int taxaMadeira, int taxaAçores) {
-        if (cliente.getLocalizacao().equalsIgnoreCase("continente"))
+
+    private void setTaxaIva(Cliente cliente, Produto produto, int taxaContinente, int taxaMadeira, int taxaAcores) {
+        if (cliente.getLocalizacao() == Localizacao.continente)
             produto.setIva(taxaContinente);
-        else if (cliente.getLocalizacao().equalsIgnoreCase("madeira"))
+        else if (cliente.getLocalizacao() == Localizacao.madeira)
             produto.setIva(taxaMadeira);
-        else if (cliente.getLocalizacao().equalsIgnoreCase("açores"))
-            produto.setIva(taxaAçores);
+        else if (cliente.getLocalizacao() == Localizacao.acores)
+            produto.setIva(taxaAcores);
     }
 
-    private boolean verifyNome(String str){
+    // TODO -> Perguntar se devemos definir este metodo como static
+    public static boolean verifyNome(String str){
         boolean res = true;
         // Verifica se o nome começa ou acaba com algum caractere que não seja uma letra
         if (!Character.isLetter(str.charAt(0)) || !Character.isLetter(str.charAt(str.length()-1)))

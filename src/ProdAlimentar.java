@@ -16,5 +16,19 @@ public class ProdAlimentar extends Produto {
         this.biologico = biologico;
     }
 
-    // public String toString() {}
+    public String toString() {
+        String strBiologico = "Não";
+        if (biologico)
+            strBiologico = "Sim";
+        return "   ==> " + nome +
+                "    Código: " + codigo + "\n" +
+                "    Descrição: " + desc + "\n" +
+                "    Biologico: " + biologico + "\n" +
+                "    Quantidade: " + quantidade + "\n" +
+                "    Valor Unitário: " + valorUnit + "\n" +
+                "    Taxa IVA: " + iva + "\n" +
+                "    Valor s/ IVA: " + calcTotalSemIva() +
+                "    Valor c/ IVA: " + calcTotalComIva() +
+                "    Valor do IVA: " + calcValorIva();
+    }
 }
