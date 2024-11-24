@@ -1,3 +1,5 @@
+import java.io.*;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
@@ -5,7 +7,6 @@ public class Main {
         // Inicializar os ArrayLists (APENAS PARA TESTES)
         ListaClientes lc =  new ListaClientes();
         ListaFaturas lf =  new ListaFaturas();
-
         // TUI (Terminal User Interface)
         System.out.println("\n" +
                 "\n" +
@@ -69,7 +70,47 @@ public class Main {
                         System.out.println("[!] Não foi possível encontrar a fatura");
                     }
                     break;
+
+                case "8":
+                    // Exportar faturas
+                    System.out.print("Insira o nome do ficheiro para exportar: ");
+                    String nomeExportar = sc.nextLine();
+                    escreverFicheiro(nomeExportar, lf.getFaturas()); // Supondo que você tenha um método para obter todas as faturas
+                    System.out.println("Faturas exportadas com sucesso!");
+                    break;
             }
         }
     }
+    public static<T> void escreverFicheiro(String nomeFicheiro, ArrayList<T> list){
+        File f = new File(nomeFicheiro);
+            try {
+                FileOutputStream fos= new FileOutputStream(f);
+                ObjectOutputStream oos = new ObjectOutputStream(fos);
+                oos.writeObject(list);
+                oos.close();
+            }
+            catch (FileNotFoundException e) {
+                System.out.println("Erro ao escrever ficheiro");
+        }
+        catch (IOException e) {
+            System.out.println("Erro ao escrever ficheiro");
+        }
+    }
+    public static <T> ArrayList<T> lerFicheiro(String nomeFicheiro){
+        File f = new File(nomeFicheiro);
+        ArrayList<T>list=null;
+        try {
+            FileInputStream fis = new FileInputStream(f);
+            ObjectInputStream ois= new ObjectInputStream(fis);
+            list= (ArrayList<T>) ois.readObject();
+            ois.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("Erro ao ler ficheiro");
+        } catch (IOException e) {
+            System.out.println("Erro ao escrever ficheiro");
+        } catch (ClassNotFoundException e) {
+            System.out.println("Erro ao escrever ficheiro");        }
+        return list;
+    }
 }
+
