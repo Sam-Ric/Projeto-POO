@@ -20,15 +20,15 @@ public class ProdAlimentar extends Produto {
         String strBiologico = "Não";
         if (biologico)
             strBiologico = "Sim";
-        return "   ==> " + nome +
+        return "   ==> " + nome + "\n" +
                 "    Código: " + codigo + "\n" +
                 "    Descrição: " + desc + "\n" +
                 "    Biologico: " + biologico + "\n" +
                 "    Quantidade: " + quantidade + "\n" +
                 "    Valor Unitário: " + valorUnit + "\n" +
                 "    Taxa IVA: " + iva + "\n" +
-                "    Valor s/ IVA: " + calcTotalSemIva() +
-                "    Valor c/ IVA: " + calcTotalComIva() +
+                "    Valor s/ IVA: " + calcTotalSemIva() + "\n" +
+                "    Valor c/ IVA: " + calcTotalComIva() + "\n" +
                 "    Valor do IVA: " + calcValorIva();
     }
 }

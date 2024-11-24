@@ -34,15 +34,15 @@ public class Normal extends ProdFarmacia {
             strCategoria = "Animais";
         else if (categoria == CategoriaNormal.outros)
             strCategoria = "Outros";
-        return "   ==> " + nome +
+        return "   ==> " + nome + "\n" +
                 "    Código: " + codigo + "\n" +
                 "    Descrição: " + desc + "\n" +
                 "    Categoria: " + strCategoria + "\n" +
                 "    Quantidade: " + quantidade + "\n" +
                 "    Valor Unitário: " + valorUnit + "\n" +
                 "    Taxa IVA: " + iva + "\n" +
-                "    Valor s/ IVA: " + calcTotalSemIva() +
-                "    Valor c/ IVA: " + calcTotalComIva() +
-                "    Valor do IVA: " + calcValorIva();
+                String.format("    Valor s/ IVA: %-6.2f\n", calcTotalSemIva()) +
+                String.format("    Valor c/ IVA: %-6.2f\n", calcTotalComIva()) +
+                String.format("    Valor do IVA: %-6.2f", calcValorIva());
     }
 }

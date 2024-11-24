@@ -17,7 +17,11 @@ public class TaxaReduzida extends ProdAlimentar {
     }
 
     public String toString() {
-        return "   ==> " + nome +
+        // Associar o valor booleano a uma string a ser imprimida
+        String strBiologico = "Não";
+        if (biologico)
+            strBiologico = "Sim";
+        return "   ==> " + nome + "\n" +
                 "    Código: " + codigo + "\n" +
                 "    Descrição: " + desc + "\n" +
                 "    Biologico: " + biologico + "\n" +
@@ -25,9 +29,9 @@ public class TaxaReduzida extends ProdAlimentar {
                 "    Certificacoes: " + Arrays.toString(certificacoes) + "\n" +
                 "    Valor Unitário: " + valorUnit + "\n" +
                 "    Taxa IVA: " + iva + "\n" +
-                "    Valor s/ IVA: " + calcTotalSemIva() +
-                "    Valor c/ IVA: " + calcTotalComIva() +
-                "    Valor do IVA: " + calcValorIva();
+                String.format("    Valor s/ IVA: %-6.2f\n", calcTotalSemIva()) +
+                String.format("    Valor c/ IVA: %-6.2f\n", calcTotalComIva()) +
+                String.format("    Valor do IVA: %-6.2f", calcValorIva());
     }
 }
 

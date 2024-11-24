@@ -21,6 +21,11 @@ public class TaxaIntermedia extends ProdAlimentar {
     }
 
     public String toString() {
+        // Associar o valor booleano a uma string a ser imprimida
+        String strBiologico = "Não";
+        if (biologico)
+            strBiologico = "Sim";
+        // Associar o enum da categoria a uma string a ser imprimida
         String strCategoria = "N/A";
         if (categoria == CategoriaTaxaIntermedia.congelados)
             strCategoria = "Congelados";
@@ -28,7 +33,8 @@ public class TaxaIntermedia extends ProdAlimentar {
             strCategoria = "Enlatados";
         else if (categoria == CategoriaTaxaIntermedia.vinho)
             strCategoria = "Vinho";
-        return "   ==> " + nome +
+        // String a ser devolvida
+        return "   ==> " + nome + "\n" +
                 "    Código: " + codigo + "\n" +
                 "    Descrição: " + desc + "\n" +
                 "    Biologico: " + biologico + "\n" +
@@ -36,8 +42,8 @@ public class TaxaIntermedia extends ProdAlimentar {
                 "    Categoria: " + strCategoria + "\n" +
                 "    Valor Unitário: " + valorUnit + "\n" +
                 "    Taxa IVA: " + iva + "\n" +
-                "    Valor s/ IVA: " + calcTotalSemIva() +
-                "    Valor c/ IVA: " + calcTotalComIva() +
-                "    Valor do IVA: " + calcValorIva();
+                String.format("    Valor s/ IVA: %-6.2f\n", calcTotalSemIva()) +
+                String.format("    Valor c/ IVA: %-6.2f\n", calcTotalComIva()) +
+                String.format("    Valor do IVA: %-6.2f", calcValorIva());
     }
 }

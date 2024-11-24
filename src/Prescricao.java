@@ -15,15 +15,15 @@ public class Prescricao extends ProdFarmacia {
     }
 
     public String toString() {
-        return "   ==> " + nome +
+        return "   ==> " + nome + "\n" +
                 "    Código: " + codigo + "\n" +
                 "    Descrição: " + desc + "\n" +
                 "    Prescrito por: " + medico + "\n" +
                 "    Quantidade: " + quantidade + "\n" +
                 "    Valor Unitário: " + valorUnit + "\n" +
                 "    Taxa IVA: " + iva + "\n" +
-                "    Valor s/ IVA: " + calcTotalSemIva() +
-                "    Valor c/ IVA: " + calcTotalComIva() +
-                "    Valor do IVA: " + calcValorIva();
+                String.format("    Valor s/ IVA: %-6.2f\n", calcTotalSemIva()) +
+                String.format("    Valor c/ IVA: %-6.2f\n", calcTotalComIva()) +
+                String.format("    Valor do IVA: %-6.2f", calcValorIva());
     }
 }

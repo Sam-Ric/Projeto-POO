@@ -60,15 +60,15 @@ public class Produto {
     }
 
     public String toString() {
-        return "   ==> " + nome +
+        return "   ==> " + nome + "\n" +
                 "    Código: " + codigo + "\n" +
                 "    Descrição: " + desc + "\n" +
                 "    Quantidade: " + quantidade + "\n" +
                 "    Valor Unitário: " + valorUnit + "\n" +
                 "    Taxa IVA: " + iva + "\n" +
-                "    Valor s/ IVA: " + calcTotalSemIva() + "\n" +
-                "    Valor c/ IVA: " + calcTotalComIva() + "\n" +
-                "    Valor do IVA: " + calcValorIva();
+                String.format("    Valor s/ IVA: %-6.2f\n", calcTotalSemIva()) +
+                String.format("    Valor c/ IVA: %-6.2f\n", calcTotalComIva()) +
+                String.format("    Valor do IVA: %-6.2f", calcValorIva());
     }
 
     public float calcTotalSemIva() {
@@ -78,12 +78,10 @@ public class Produto {
 
     public float calcTotalComIva() {
         // valorProduto = (valorUnit + valorUnit * taxaIva) * quantidade
-        return (valorUnit + valorUnit * (iva / 100)) * quantidade;
+        return (valorUnit + valorUnit * (iva / 100f)) * quantidade;
     }
 
     public float calcValorIva() {
-        float res = 0;
-        res = calcTotalComIva() - calcTotalSemIva();
-        return res;
+        return calcTotalComIva() - calcTotalSemIva();
     }
 }
