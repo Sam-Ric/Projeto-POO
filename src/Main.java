@@ -6,18 +6,6 @@ public class Main {
         ListaClientes lc =  new ListaClientes();
         ListaFaturas lf =  new ListaFaturas();
 
-        Prescricao p = new Prescricao();
-        p.setNome("Ben-u-ron");
-        p.setCodigo(123);
-        p.setDesc("n/a");
-        p.setMedico("Jorge Silva");
-        p.setQuantidade(3);
-        p.setValorUnit(7.0f);
-        p.setIva(23);
-        System.out.println(p);
-
-
-        /*
         // TUI (Terminal User Interface)
         System.out.println("\n" +
                 "\n" +
@@ -83,8 +71,5 @@ public class Main {
                     break;
             }
         }
-
-         */
-
     }
 }
