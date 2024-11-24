@@ -23,7 +23,7 @@ public class ProdAlimentar extends Produto {
         return "   ==> " + nome + "\n" +
                 "    Código: " + codigo + "\n" +
                 "    Descrição: " + desc + "\n" +
-                "    Biologico: " + biologico + "\n" +
+                "    Biologico: " + strBiologico + "\n" +
                 "    Quantidade: " + quantidade + "\n" +
                 "    Valor Unitário: " + valorUnit + "\n" +
                 "    Taxa IVA: " + iva + "\n" +

@@ -39,63 +39,39 @@ public class ListaFaturas {
         fatura.setNumFatura(faturas.size() + 1);
         // Obter os dados da fatura
         getFaturaInfo(fatura, clientes);
-        // Permitir ao utilizador realizar operações no ArrayList de Produtos da fatura
-        boolean addingProdutos = true;
-        while (addingProdutos) {
-            System.out.println("\n[1] Adicionar produto");
-            System.out.println("[2] Ver produtos");
-            System.out.println("[3] Remover produto");
-            System.out.println("[0] Finalizar\n>> ");
-            String opcao = sc.nextLine();
-            if (opcao.equals("1")) {
-                fatura.getProdutos().addProduto(fatura.getCliente()); 
-            }
-            else if (opcao.equals("2")) {
-                if (fatura.getProdutos().getProdutos().size() > 0)
-                    fatura.getProdutos().printProdutos();
-                else
-                    System.out.println("[!] Ainda não foram adicionados produtos!");
-            }
-            // TODO -> Implementar função para remover um produto do ArrayList de Produtos
-            /*
-            if (opcao.equals("3")) {
-                produtos.removeProduto();
-            }
-             */
-            else if (opcao.equals("0")) {
-                addingProdutos = false;
-            }
-            else {
-                System.out.println("[!] Opção inválida");
-            }
-        }
-        this.faturas.add(fatura);
+
+        faturas.add(fatura);
     }
 
     public void editFatura(ListaClientes clientes) {
-        // Imprimir todas as faturas registadas
-        printFaturas();
-        // Selecionar uma das faturas com base nos respetivos números
-        Scanner sc = new Scanner(System.in);
-        System.out.println("\nInsira o número da fatura que pretende editar:");
-        int numFatura = 0;
-        boolean valid = false;
-        while (!valid) {
-            System.out.print(">> ");
-            try {
-                numFatura = sc.nextInt();
-                valid = true;
-            } catch (InputMismatchException e) {
-                System.out.println("[!] Input inválido");
+        if (faturas.size() != 0) {
+            // Imprimir todas as faturas registadas
+            printFaturas();
+            // Selecionar uma das faturas com base nos respetivos números
+            Scanner sc = new Scanner(System.in);
+            System.out.println("\nInsira o número da fatura que pretende editar:");
+            int numFatura = 0;
+            boolean valid = false;
+            while (!valid) {
+                System.out.print(">> ");
+                String strNumFatura = sc.nextLine();
+                try {
+                    numFatura = Integer.parseInt(strNumFatura);
+                    valid = true;
+                } catch (NumberFormatException e) {
+                    System.out.println("[!] Input inválido");
+                }
             }
-        }
-        // Procurar a fatura com o número dado pelo utilizador
-        for (Fatura fatura : faturas) {
-            if (fatura.getNumFatura() == numFatura) {
-                // Editar os dados da fatura
-                getFaturaInfo(fatura, clientes);
+            // Procurar a fatura com o número dado pelo utilizador
+            for (Fatura fatura : faturas) {
+                if (fatura.getNumFatura() == numFatura) {
+                    // Editar os dados da fatura
+                    getFaturaInfo(fatura, clientes);
+                }
             }
-        }
+        } else
+            System.out.println("[!] Não existem faturas para editar");
+
     }
 
     private void getFaturaInfo(Fatura fatura, ListaClientes clientes) {
@@ -105,10 +81,9 @@ public class ListaFaturas {
             clientes.addCliente();
         }
         // Associar um cliente à fatura
-        Cliente cliente = null;
-        while (fatura.getCliente() == null)
+        do {
             fatura.setCliente(clientes.searchCliente());
-
+        } while (fatura.getCliente() == null);
 
         // Obter a data da fatura
         System.out.println("\nInsira a data: (dd/mm/aaaa)");
@@ -131,6 +106,37 @@ public class ListaFaturas {
 
             catch(NumberFormatException e){
                 System.out.println("[!] Data invalida");
+            }
+        }
+
+        // Permitir ao utilizador realizar operações no ArrayList de Produtos da fatura
+        boolean addingProdutos = true;
+        while (addingProdutos) {
+            System.out.println("\n[1] Adicionar produto");
+            System.out.println("[2] Ver produtos");
+            System.out.println("[3] Remover produto [POR IMPLEMENTAR]");
+            System.out.println("[0] Finalizar\n>> ");
+            String opcao = sc.nextLine();
+            if (opcao.equals("1")) {
+                fatura.getProdutos().addProduto(fatura.getCliente());
+            }
+            else if (opcao.equals("2")) {
+                if (fatura.getProdutos().getProdutos().size() > 0)
+                    fatura.getProdutos().printProdutos();
+                else
+                    System.out.println("[!] Ainda não foram adicionados produtos!");
+            }
+            // TODO -> Implementar função para remover um produto do ArrayList de Produtos
+            /*
+            if (opcao.equals("3")) {
+                produtos.removeProduto();
+            }
+             */
+            else if (opcao.equals("0")) {
+                addingProdutos = false;
+            }
+            else {
+                System.out.println("[!] Opção inválida");
             }
         }
     }

@@ -24,7 +24,7 @@ public class TaxaReduzida extends ProdAlimentar {
         return "   ==> " + nome + "\n" +
                 "    Código: " + codigo + "\n" +
                 "    Descrição: " + desc + "\n" +
-                "    Biologico: " + biologico + "\n" +
+                "    Biologico: " + strBiologico + "\n" +
                 "    Quantidade: " + quantidade + "\n" +
                 "    Certificacoes: " + Arrays.toString(certificacoes) + "\n" +
                 "    Valor Unitário: " + valorUnit + "\n" +

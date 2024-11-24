@@ -1,10 +1,11 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.lang.*;
 
 // TODO -> Perguntar se devemos definir metodo verifyNome() como static
-
+// TODO -> Perguntar como funciona a atribuição de certificações
 
 public class ListaProdutos {
     // Atributos da classe
@@ -39,7 +40,7 @@ public class ListaProdutos {
             if (opt.equals("1")) {
                 // Verificar se o produto é biológico
                 boolean biologico = false;
-                System.out.println("O produto é biológico?");
+                System.out.println("\nO produto é biológico?");
                 System.out.println("[1] Sim");
                 System.out.println("[2] Não");
                 boolean validBio = false;
@@ -65,7 +66,7 @@ public class ListaProdutos {
                     System.out.print("\nNúmero de certificações: ");
                     try {
                         int cert = sc.nextInt();
-
+                        sc.nextLine(); // Limpar o buffer após ler o inteiro
                         // Se tiver certificações => Taxa Reduzida
                         if (cert > 0 && cert <= 4) {
                             TaxaReduzida produto = new TaxaReduzida();
@@ -74,10 +75,12 @@ public class ListaProdutos {
                             String[] temp = new String[cert];
                             // TODO -> Perguntar como funciona a atribuição de certificações
                             System.out.println("Insira os nomes das certificações:");
-                            for (int i = 0; i < cert; i++) {
+                            int index = 0;
+                            while (index < temp.length) {
                                 System.out.print(">> ");
                                 String nomeCert = sc.nextLine();
-                                temp[i] = nomeCert;
+                                temp[index] = nomeCert;
+                                index++;
                             }
                             produto.setCertificacoes(temp);
                             // Obter os dados comuns da classe Produto

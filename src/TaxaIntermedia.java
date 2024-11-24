@@ -37,7 +37,7 @@ public class TaxaIntermedia extends ProdAlimentar {
         return "   ==> " + nome + "\n" +
                 "    Código: " + codigo + "\n" +
                 "    Descrição: " + desc + "\n" +
-                "    Biologico: " + biologico + "\n" +
+                "    Biologico: " + strBiologico + "\n" +
                 "    Quantidade: " + quantidade + "\n" +
                 "    Categoria: " + strCategoria + "\n" +
                 "    Valor Unitário: " + valorUnit + "\n" +
