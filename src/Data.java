@@ -31,4 +31,13 @@ public class Data {
     public void setAno(int ano) {
         this.ano = ano;
     }
+
+    public boolean isDiaValido(int dia){
+        int len= String.valueOf(dia).length();
+        return dia >= 1 && dia <= 31 && len >= 1 && len <= 2;
+    }
+    public boolean isMesValido(int mes){
+        int len= String.valueOf(mes).length();
+        return mes >= 1 && mes <= 12 && len >= 1 && len <= 2;
+    }
 }
