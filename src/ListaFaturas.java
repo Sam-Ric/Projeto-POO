@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class ListaFaturas {
@@ -32,18 +31,18 @@ public class ListaFaturas {
         }
     }
 
-    public void addFatura(ListaClientes clientes) {
+    public void addFatura(ListaClientes clientes, Produtos produtosRegistados) {
         Fatura fatura = new Fatura();
         Scanner sc = new Scanner(System.in);
         // Atribuir um número à fatura com base no número de faturas presente no ArrayList
         fatura.setNumFatura(faturas.size() + 1);
         // Obter os dados da fatura
-        getFaturaInfo(fatura, clientes);
+        getFaturaInfo(fatura, clientes, produtosRegistados);
 
         faturas.add(fatura);
     }
 
-    public void editFatura(ListaClientes clientes) {
+    public void editFatura(ListaClientes clientes, Produtos produtosRegistados) {
         if (faturas.size() != 0) {
             // Imprimir todas as faturas registadas
             printFaturas();
@@ -66,7 +65,7 @@ public class ListaFaturas {
             for (Fatura fatura : faturas) {
                 if (fatura.getNumFatura() == numFatura) {
                     // Editar os dados da fatura
-                    getFaturaInfo(fatura, clientes);
+                    getFaturaInfo(fatura, clientes, produtosRegistados);
                 }
             }
         } else
@@ -74,7 +73,7 @@ public class ListaFaturas {
 
     }
 
-    private void getFaturaInfo(Fatura fatura, ListaClientes clientes) {
+    private void getFaturaInfo(Fatura fatura, ListaClientes clientes, Produtos produtosRegistados) {
         Scanner sc = new Scanner(System.in);
         // Caso não existam clientes registados, o utilizador deve registar um
         if (clientes.getClientes().size() == 0) {
@@ -113,31 +112,46 @@ public class ListaFaturas {
         // Permitir ao utilizador realizar operações no ArrayList de Produtos da fatura
         boolean addingProdutos = true;
         while (addingProdutos) {
-            System.out.println("\n[1] Adicionar produto");
-            System.out.println("[2] Ver produtos");
-            System.out.println("[3] Remover produto [POR IMPLEMENTAR]");
+            System.out.println("\n[1] Adicionar novo produto");
+            System.out.println("[2] Adicionar produto existente");
+            System.out.println("[3] Ver produtos adicionados");
+            System.out.println("[4] Remover produto");
             System.out.println("[0] Finalizar\n>> ");
             String opcao = sc.nextLine();
             if (opcao.equals("1")) {
-                fatura.getProdutos().addProduto(fatura.getCliente());
+                fatura.getProdutos().addProduto(fatura.getCliente(), produtosRegistados);
             }
             else if (opcao.equals("2")) {
-                if (fatura.getProdutos().getProdutos().size() > 0)
+                if (produtosRegistados.getProdutos().size() != 0) {
+                    // Imprimir todos os produtos registados
+                    produtosRegistados.printProdutosRegistados();
+                    System.out.print("Insira o código do produto: ");
+                    String code = sc.nextLine();
+                    try {
+                        // Encontrar o produto com o codigo dado
+                        Produto temp = produtosRegistados.getProdutoRegistado(Integer.parseInt(code));
+                        if (temp != null)
+                            // Adicionar o produto selecionado ao ArrayList de produtos da fatura atual
+                            fatura.getProdutos().getProdutosFatura().add(temp);
+                        else
+                            System.out.println("[!] Produto não encontrado");
+                    } catch (NumberFormatException e) {
+                        System.out.println("[!] Código inválido");
+                    }
+                } else
+                    System.out.println("[!] Não existem produtos registados");
+            }
+            else if (opcao.equals("3")) {
+                if (fatura.getProdutos().getProdutosFatura().size() > 0)
                     fatura.getProdutos().printProdutos();
                 else
                     System.out.println("[!] Ainda não foram adicionados produtos!");
             }
-            // TODO -> Implementar função para remover um produto do ArrayList de Produtos
-            /*
-            if (opcao.equals("3")) {
-                produtos.removeProduto();
+            if (opcao.equals("4")) {
+                fatura.getProdutos().removeProduto();
             }
-             */
             else if (opcao.equals("0")) {
                 addingProdutos = false;
-            }
-            else {
-                System.out.println("[!] Opção inválida");
             }
         }
     }

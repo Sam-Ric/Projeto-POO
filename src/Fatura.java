@@ -42,19 +42,19 @@ public class Fatura {
     }
 
     public String toString() {
-        return String.format(" %-3d | %-20s | %-20s | %-11d | %-12.2f | %-12.2f", numFatura, cliente.getNome(), cliente.getLocalizacao(), produtos.getProdutos().size(), calcTotalSemIva(), calcTotalComIva());
+        return String.format(" %-3d | %-20s | %-20s | %-11d | %-12.2f | %-12.2f", numFatura, cliente.getNome(), cliente.getLocalizacao(), produtos.getProdutosFatura().size(), calcTotalSemIva(), calcTotalComIva());
     }
 
     public float calcTotalSemIva() {
         float total = 0;
-        for (Produto produto : produtos.getProdutos())
+        for (Produto produto : produtos.getProdutosFatura())
             total += produto.calcTotalSemIva();
         return total;
     }
 
     public float calcTotalComIva() {
         float total = 0;
-        for (Produto produto : produtos.getProdutos())
+        for (Produto produto : produtos.getProdutosFatura())
             total += produto.calcTotalComIva();
         return total;
     }

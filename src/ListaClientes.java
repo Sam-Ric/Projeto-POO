@@ -52,7 +52,7 @@ public class ListaClientes {
         boolean validNome = false;
         while (!validNome) {
             nome = sc.nextLine();
-            validNome = ListaProdutos.verifyNome(nome);
+            validNome = Static.verifyNome(nome);
         }
         cliente.setNome(nome);
         // Obter um NIF válido

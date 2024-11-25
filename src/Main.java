@@ -5,8 +5,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         // Inicializar os ArrayLists (APENAS PARA TESTES)
-        ListaClientes lc =  new ListaClientes();
-        ListaFaturas lf =  new ListaFaturas();
+        POO dados = new POO();
         // TUI (Terminal User Interface)
         System.out.println("\n" +
                 "\n" +
@@ -37,28 +36,28 @@ public class Main {
                     running = false;
                     break;
                 case "1":
-                    lc.addCliente();
+                    dados.getListaClientes().addCliente();
                     break;
                 case "2":
-                    lc.editCliente();
+                    dados.getListaClientes().editCliente();
                     break;
                 case "3":
-                    lf.addFatura(lc);
+                    dados.getListaFaturas().addFatura(dados.getListaClientes(), dados.getProdutosRegistados());
                     break;
                 case "4":
-                    lf.editFatura(lc);
+                    dados.getListaFaturas().editFatura(dados.getListaClientes(), dados.getProdutosRegistados());
                     break;
                 case "5":
-                    lf.printFaturas();
+                    dados.getListaFaturas().printFaturas();
                     break;
                 case "6":
-                    lf.printFaturas();
+                    dados.getListaFaturas().printFaturas();
                     System.out.println("Insira o número da fatura que prentede visualizar:");
                     System.out.print(">> ");
                     String numFatura = sc.nextLine();
                     boolean foundFatura = false;
                     try {
-                        for (Fatura fatura : lf.getFaturas()) {
+                        for (Fatura fatura : dados.getListaFaturas().getFaturas()) {
                             if (fatura.getNumFatura() == Integer.parseInt(numFatura)) {
                                 fatura.printFatura();
                                 foundFatura = true;
@@ -71,16 +70,21 @@ public class Main {
                     }
                     break;
 
+                /*
                 case "8":
                     // Exportar faturas
                     System.out.print("Insira o nome do ficheiro para exportar: ");
                     String nomeExportar = sc.nextLine();
-                    escreverFicheiro(nomeExportar, lf.getFaturas()); // Supondo que você tenha um método para obter todas as faturas
+                    escreverFicheiro(nomeExportar, lf.getFaturas());
                     System.out.println("Faturas exportadas com sucesso!");
                     break;
+
+                 */
             }
         }
     }
+
+    /*
     public static<T> void escreverFicheiro(String nomeFicheiro, ArrayList<T> list){
         File f = new File(nomeFicheiro);
             try {
@@ -112,5 +116,7 @@ public class Main {
             System.out.println("Erro ao escrever ficheiro");        }
         return list;
     }
+
+     */
 }
 
