@@ -1,4 +1,6 @@
-public class Fatura {
+import java.io.Serializable;
+
+public class Fatura implements Serializable {
     // Atributos da classe
     private int numFatura;
     private Cliente cliente;
@@ -6,7 +8,19 @@ public class Fatura {
     private ListaProdutos produtos;
 
     // Construtores
-    public Fatura() {this.produtos = new ListaProdutos();}
+    public Fatura() {}
+
+    public Fatura(int numFatura) {
+        this.numFatura = numFatura;
+        produtos = new ListaProdutos();
+    }
+
+    public Fatura(int numFatura, Cliente cliente, Data data, ListaProdutos produtos) {
+        this.numFatura = numFatura;
+        this.cliente = cliente;
+        this.data = data;
+        this.produtos = produtos;
+    }
 
     // Metodos de acesso
     public int getNumFatura() {
@@ -68,7 +82,7 @@ public class Fatura {
         System.out.println("> Cliente");
         System.out.println("   Nome: " + cliente.getNome());
         System.out.println("   NIF: " + cliente.getNif());
-        System.out.println("   Localizacao: " + cliente.getLocalizacao());
+        System.out.println("   Localizacao: " + Static.localizacaoToString(cliente.getLocalizacao()));
         System.out.println("> Produtos");
         produtos.printProdutos();
         System.out.println("> Fatura");

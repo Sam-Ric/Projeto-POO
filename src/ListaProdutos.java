@@ -1,9 +1,10 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.lang.*;
 
-public class ListaProdutos {
+public class ListaProdutos implements Serializable {
     // Atributos da classe
     private ArrayList<Produto> produtosFatura;
 

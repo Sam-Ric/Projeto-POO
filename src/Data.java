@@ -7,6 +7,12 @@ public class Data {
     // Construtores
     public Data() {}
 
+    public Data(int dia, int mes, int ano) {
+        this.dia = dia;
+        this.mes = mes;
+        this.ano = ano;
+    }
+
     // Metodos de acesso
     public int getDia() {
         return dia;

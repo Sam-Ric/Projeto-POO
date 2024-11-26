@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Produtos {
+public class Produtos implements Serializable {
     // Atributos da classe
     private ArrayList<Produto> produtos;
     private int codigoAtual;

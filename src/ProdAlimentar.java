@@ -1,10 +1,20 @@
-public class ProdAlimentar extends Produto {
+import java.io.Serializable;
+
+public class ProdAlimentar extends Produto implements Serializable {
     // Atributos da classe
     protected boolean biologico;
 
     // Construtores
-    public ProdAlimentar() {
+    public ProdAlimentar() {}
 
+    public ProdAlimentar(int codigo, String nome, String desc, int quantidade, float valorUnit, int iva, boolean biologico) {
+        this.codigo = codigo;
+        this.nome = nome;
+        this.desc = desc;
+        this.quantidade = quantidade;
+        this.valorUnit = valorUnit;
+        this.iva = iva;
+        this.biologico = biologico;
     }
 
     // Metodos de acesso

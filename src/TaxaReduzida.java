@@ -1,11 +1,23 @@
+import java.io.Serializable;
 import java.util.Arrays;
 
-public class TaxaReduzida extends ProdAlimentar {
+public class TaxaReduzida extends ProdAlimentar implements Serializable {
     // Atributos da classe
     private String[] certificacoes;
 
     // Construtores
     public TaxaReduzida() {}
+
+    public TaxaReduzida(int codigo, String nome, String desc, int quantidade, float valorUnit, int iva, boolean biologico, String[] certificacoes) {
+        this.codigo = codigo;
+        this.nome = nome;
+        this.desc = desc;
+        this.quantidade = quantidade;
+        this.valorUnit = valorUnit;
+        this.iva = iva;
+        this.biologico = biologico;
+        this.certificacoes = certificacoes;
+    }
 
     // Metodos de acesso
     public String[] getCertificacoes() {

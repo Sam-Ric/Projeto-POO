@@ -1,4 +1,6 @@
-public class Produto {
+import java.io.Serializable;
+
+public class Produto implements Serializable {
     // Atributos da classe
     protected int codigo;
     protected String nome;
@@ -9,6 +11,15 @@ public class Produto {
 
     // Construtores
     public Produto() {}
+
+    public Produto(int codigo, String nome, String desc, int quantidade, float valorUnit, int iva) {
+        this.codigo = codigo;
+        this.nome = nome;
+        this.desc = desc;
+        this.quantidade = quantidade;
+        this.valorUnit = valorUnit;
+        this.iva = iva;
+    }
 
     // Metodos de acesso
     public int getCodigo() {

@@ -1,15 +1,28 @@
+import java.io.Serializable;
+
 enum CategoriaTaxaIntermedia {
     congelados,
     enlatados,
     vinho
 }
 
-public class TaxaIntermedia extends ProdAlimentar {
+public class TaxaIntermedia extends ProdAlimentar implements Serializable {
     // Atributos da classe
     private CategoriaTaxaIntermedia categoria;
 
     // Construtores
     public TaxaIntermedia() {}
+
+    public TaxaIntermedia(int codigo, String nome, String desc, int quantidade, float valorUnit, int iva, boolean biologico, CategoriaTaxaIntermedia categoria) {
+        this.codigo = codigo;
+        this.nome = nome;
+        this.desc = desc;
+        this.quantidade = quantidade;
+        this.valorUnit = valorUnit;
+        this.iva = iva;
+        this.biologico = biologico;
+        this.categoria = categoria;
+    }
 
     // Metodos de acesso
     public CategoriaTaxaIntermedia getCategoria() {

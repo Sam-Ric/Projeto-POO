@@ -1,10 +1,12 @@
+import java.io.Serializable;
+
 enum Localizacao {
     continente,
     madeira,
     acores
 }
 
-public class Cliente {
+public class Cliente implements Serializable {
     // Atributos da classe
     protected String nome;
     protected int nif;
@@ -12,6 +14,12 @@ public class Cliente {
 
     // Construtores
     public Cliente() {}
+
+    public Cliente(String nome, int nif, Localizacao localizacao) {
+        this.nome = nome;
+        this.nif = nif;
+        this.localizacao = localizacao;
+    }
 
     // Metodos de acesso
     public String getNome() {
@@ -39,13 +47,6 @@ public class Cliente {
     }
 
     public String toString() {
-        String loc = "N/A";
-        if (localizacao == Localizacao.continente)
-            loc = "Portugal Continental";
-        else if (localizacao == Localizacao.madeira)
-            loc = "Madeira";
-        else if (localizacao == Localizacao.acores)
-            loc = "Açores";
-        return String.format(" %-25s | %-9d | %-20s ", nome, nif, loc);
+        return String.format(" %-25s | %-9d | %-20s ", nome, nif, Static.localizacaoToString(localizacao));
     }
 }

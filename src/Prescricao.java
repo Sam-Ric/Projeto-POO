@@ -1,9 +1,21 @@
-public class Prescricao extends ProdFarmacia {
+import java.io.Serializable;
+
+public class Prescricao extends ProdFarmacia implements Serializable {
     // Atributos da classe
     protected String medico;
 
     // Construtores
     public Prescricao(){}
+
+    public Prescricao(int codigo, String nome, String desc, int quantidade, float valorUnit, int iva, String medico) {
+        this.codigo = codigo;
+        this.nome = nome;
+        this.desc = desc;
+        this.quantidade = quantidade;
+        this.valorUnit = valorUnit;
+        this.iva = iva;
+        this.medico = medico;
+    }
 
     // Metodos de acesso
     public String getMedico() {

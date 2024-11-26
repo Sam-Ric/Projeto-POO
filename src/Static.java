@@ -13,4 +13,20 @@ public class Static {
         }
         return res;
     }
+
+    public static String localizacaoToString(Localizacao loc) {
+        String res = "N/A";
+        switch (loc) {
+            case continente:
+                res = "Portugal Continental";
+                break;
+            case madeira:
+                res = "Madeira";
+                break;
+            case acores:
+                res = "Açores";
+                break;
+        }
+        return res;
+    }
 }

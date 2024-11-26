@@ -1,13 +1,18 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class ListaClientes {
+public class ListaClientes implements Serializable {
     // Atributos da classe
     private ArrayList<Cliente> clientes;
 
     // Construtores
     public ListaClientes() {
         clientes = new ArrayList<Cliente>();
+    }
+
+    public ListaClientes(ArrayList<Cliente> clientes) {
+        this.clientes = clientes;
     }
 
     // Metodos de acesso
@@ -31,7 +36,7 @@ public class ListaClientes {
         // Criar o novo objeto Cliente
         Cliente cliente = new Cliente();
         // Obter os dados do cliente
-        getClientInfo(cliente);
+        getDadosCliente(cliente);
         // Adicionar o objeto criado ao ArrayList dos Clientes
         clientes.add(cliente);
     }
@@ -41,10 +46,10 @@ public class ListaClientes {
         Cliente cliente = searchCliente();
         if (cliente != null)
             // Obter os novos dados do cliente
-            getClientInfo(cliente);
+            getDadosCliente(cliente);
     }
 
-    private void getClientInfo(Cliente cliente) {
+    private void getDadosCliente(Cliente cliente) {
         Scanner sc = new Scanner(System.in);
         // Obter o nome do cliente
         System.out.print("\nInsira o nome:\n>> ");

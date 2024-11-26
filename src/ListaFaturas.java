@@ -1,13 +1,21 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class ListaFaturas {
+public class ListaFaturas implements Serializable {
     // Atributos da classe
     private ArrayList<Fatura> faturas;
+    private int numFaturaAtual;
 
     // Construtores
     public ListaFaturas() {
         faturas = new ArrayList<Fatura>();
+        numFaturaAtual = 1;
+    }
+
+    public ListaFaturas(ArrayList<Fatura> faturas, int numFaturaAtual) {
+        this.faturas = faturas;
+        this.numFaturaAtual = numFaturaAtual;
     }
 
     // Metodos de acesso
@@ -32,13 +40,13 @@ public class ListaFaturas {
     }
 
     public void addFatura(ListaClientes clientes, Produtos produtosRegistados) {
-        Fatura fatura = new Fatura();
         Scanner sc = new Scanner(System.in);
-        // Atribuir um número à fatura com base no número de faturas presente no ArrayList
-        fatura.setNumFatura(faturas.size() + 1);
+        // Criar uma nova fatura e atribuir-lhe um número com base no número de faturas presente no ArrayList
+        Fatura fatura = new Fatura(numFaturaAtual);
+        numFaturaAtual++;
         // Obter os dados da fatura
-        getFaturaInfo(fatura, clientes, produtosRegistados);
-
+        getDadosFatura(fatura, clientes, produtosRegistados);
+        // Adicionar a fatura criada ao ArrayList de faturas
         faturas.add(fatura);
     }
 
@@ -65,7 +73,7 @@ public class ListaFaturas {
             for (Fatura fatura : faturas) {
                 if (fatura.getNumFatura() == numFatura) {
                     // Editar os dados da fatura
-                    getFaturaInfo(fatura, clientes, produtosRegistados);
+                    getDadosFatura(fatura, clientes, produtosRegistados);
                 }
             }
         } else
@@ -73,7 +81,7 @@ public class ListaFaturas {
 
     }
 
-    private void getFaturaInfo(Fatura fatura, ListaClientes clientes, Produtos produtosRegistados) {
+    private void getDadosFatura(Fatura fatura, ListaClientes clientes, Produtos produtosRegistados) {
         Scanner sc = new Scanner(System.in);
         // Caso não existam clientes registados, o utilizador deve registar um
         if (clientes.getClientes().size() == 0) {
