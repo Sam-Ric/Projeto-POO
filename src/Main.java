@@ -6,7 +6,7 @@ public class Main {
     public static void main(String[] args) {
         // Inicializar os ArrayLists (APENAS PARA TESTES)
         POO dados = new POO();
-
+        dados = dados.fetchDados();
         // TUI (Terminal User Interface)
         System.out.println("\n" +
                 "\n" +
