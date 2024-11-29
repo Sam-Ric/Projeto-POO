@@ -212,7 +212,7 @@ public class ListaProdutos implements Serializable {
                         System.out.println("[2] Produto de bem estar");
                         System.out.println("[3] Produto para bebes");
                         System.out.println("[4] Produto para animais");
-                        System.out.println("[5] Outros produtosFatura");
+                        System.out.println("[5] Outros produtos");
                         boolean menuNormal = false;
                         while (!menuNormal) {
                             System.out.print(">> ");

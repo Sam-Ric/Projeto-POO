@@ -1,8 +1,8 @@
 public class Data {
     // Atributos da classe
-    protected int dia;
-    protected int mes;
-    protected int ano;
+    private int dia;
+    private int mes;
+    private int ano;
 
     // Construtores
     public Data() {}

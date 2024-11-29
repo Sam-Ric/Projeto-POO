@@ -1,5 +1,6 @@
-import java.io.Serializable;
+import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class ListaFaturas implements Serializable {
@@ -103,9 +104,10 @@ public class ListaFaturas implements Serializable {
                 String[] temp = dataFatura.split("/");
 
                 if(temp.length==3 && data.isDiaValido(Integer.parseInt(temp[0])) && data.isMesValido(Integer.parseInt(temp[1]))&& temp[2].length()==4){
-                    data.dia = Integer.parseInt(temp[0]);
-                    data.mes = Integer.parseInt(temp[1]);
-                    data.ano = Integer.parseInt(temp[2]);
+                    data.setDia(Integer.parseInt(temp[0]));
+                    data.setMes(Integer.parseInt(temp[1]));
+                    data.setAno(Integer.parseInt(temp[2]));
+                    fatura.setData(data);
                     foundData = true;
                 }
                 else
@@ -161,6 +163,152 @@ public class ListaFaturas implements Serializable {
             else if (opcao.equals("0")) {
                 addingProdutos = false;
             }
+        }
+    }
+
+    public void exportarFaturas(String filename) {
+        File f = new File(filename);
+        try {
+            FileWriter fw = new FileWriter(f);
+            BufferedWriter bw = new BufferedWriter(fw);
+            for (Fatura fatura : faturas) {
+                bw.write(fatura.getCliente().getNome() + ";");  // Nome do cliente
+                bw.write(fatura.getCliente().getNif() + ";");             // NIF do cliente
+                if (fatura.getCliente().getLocalizacao() == Localizacao.continente)
+                    bw.write("1#");                              // Localizacao -> Portugal Continental
+                else if (fatura.getCliente().getLocalizacao() == Localizacao.madeira)
+                    bw.write("2#");                              // Localizacao -> Madeira
+                else if (fatura.getCliente().getLocalizacao() == Localizacao.acores)
+                    bw.write("3#");                              // Localizacao -> Açores
+                bw.write(fatura.getData().getDia() + "/" + fatura.getData().getMes() + "/" + fatura.getData().getAno() + "#");
+                // Escrever produtos da fatura
+                ArrayList<Produto> temp = fatura.getProdutos().getProdutosFatura();
+                for (int i = 0; i < temp.size(); i++) {
+                    Produto produto = temp.get(i);
+                    // Obter uma string com o tipo do produto
+                    String tipo = findTipoProduto(produto);
+                    // Escrever os dados do produto no ficheiro de texto
+                    writeProduto(tipo, produto, f, fw, bw);
+                    if (i < temp.size() - 1)
+                        bw.write("#");
+                }
+                bw.newLine();
+            }
+            bw.close();
+        } catch (IOException e) {
+            System.out.println("[!] Erro ao exportar faturas");
+        }
+    }
+
+    private String findTipoProduto(Produto produto) {
+        // Verificar se o produto é de taxa reduzida
+        try {
+            TaxaReduzida taxaReduzida = (TaxaReduzida) produto;
+            return "taxaReduzida";
+        } catch (Exception _) {}
+        // Verificar se o produto é de taxa intermedia
+        try {
+            TaxaIntermedia taxaIntermedia = (TaxaIntermedia) produto;
+            return "taxaIntermedia";
+        } catch (Exception _) {}
+        // Verificar se o produto é de taxa reduzida
+        try {
+            TaxaNormal taxaNormal = (TaxaNormal) produto;
+            return "taxaNormal";
+        } catch (Exception _) {}
+        // Verificar se o produto é da classe Prescrição
+        try {
+            Prescricao prescricao = (Prescricao) produto;
+            return "prescricao";
+        } catch (Exception _) {}
+        // Verificar se o produto é da classe Normal
+        try {
+            Normal normal = (Normal) produto;
+            return "normal";
+        } catch (Exception _) {}
+
+        // Caso o produto não corresponda a nenhuma das classes
+        return "null";
+    }
+
+    private void writeProduto(String tipo, Produto produto, File f, FileWriter fw, BufferedWriter bw) {
+        try {
+            switch (tipo) {
+                case "taxaReduzida":
+                    TaxaReduzida taxaReduzida = (TaxaReduzida) produto;
+                    bw.write("taxaReduzida;");
+                    if (taxaReduzida.getBiologico())
+                        bw.write("1;");
+                    else bw.write("0;");
+                    bw.write(taxaReduzida.getNome() + ";");
+                    bw.write(taxaReduzida.getDesc() + ";");
+                    bw.write(taxaReduzida.getQuantidade() + ";");
+                    bw.write(taxaReduzida.getValorUnit() + ";");
+                    bw.write(taxaReduzida.getIva() + ";");
+                    bw.write(Arrays.toString(taxaReduzida.getCertificacoes()));
+                    break;
+                case "taxaIntermedia":
+                    TaxaIntermedia taxaIntermedia = (TaxaIntermedia) produto;
+                    bw.write("taxaIntermedia;");
+                    if (taxaIntermedia.getBiologico())
+                        bw.write("1;");
+                    else bw.write("0;");
+                    bw.write(taxaIntermedia.getNome() + ";");
+                    bw.write(taxaIntermedia.getDesc() + ";");
+                    bw.write(taxaIntermedia.getQuantidade() + ";");
+                    bw.write(taxaIntermedia.getValorUnit() + ";");
+                    bw.write(taxaIntermedia.getIva() + ";");
+                    if (taxaIntermedia.getCategoria() == CategoriaTaxaIntermedia.congelados)
+                        bw.write("congelados");
+                    else if (taxaIntermedia.getCategoria() == CategoriaTaxaIntermedia.enlatados)
+                        bw.write("enlatados");
+                    else
+                        bw.write("vinho");
+                    break;
+                case "taxaNormal":
+                    TaxaNormal taxaNormal = (TaxaNormal) produto;
+                    bw.write("taxaNormal;");
+                    if (taxaNormal.getBiologico())
+                        bw.write("1;");
+                    else bw.write("0;");
+                    bw.write(taxaNormal.getNome() + ";");
+                    bw.write(taxaNormal.getDesc() + ";");
+                    bw.write(taxaNormal.getQuantidade() + ";");
+                    bw.write(taxaNormal.getValorUnit() + ";");
+                    bw.write(Integer.toString(taxaNormal.getIva()));
+                    break;
+                case "prescricao":
+                    Prescricao prescricao = (Prescricao) produto;
+                    bw.write("prescricao;");
+                    bw.write(prescricao.getNome() + ";");
+                    bw.write(prescricao.getDesc() + ";");
+                    bw.write(prescricao.getQuantidade() + ";");
+                    bw.write(prescricao.getValorUnit() + ";");
+                    bw.write(prescricao.getIva() + ";");
+                    bw.write(prescricao.getMedico());
+                    break;
+                case "normal":
+                    Normal normal = (Normal) produto;
+                    bw.write("normal;");
+                    bw.write(normal.getNome() + ";");
+                    bw.write(normal.getDesc() + ";");
+                    bw.write(normal.getQuantidade() + ";");
+                    bw.write(normal.getValorUnit() + ";");
+                    bw.write(normal.getIva() + ";");
+                    if (normal.getCategoria() == CategoriaNormal.beleza)
+                        bw.write("beleza");
+                    else if (normal.getCategoria() == CategoriaNormal.bemEstar)
+                        bw.write("bemEstar");
+                    else if (normal.getCategoria() == CategoriaNormal.bebes)
+                        bw.write("bebes");
+                    else if (normal.getCategoria() == CategoriaNormal.animais)
+                        bw.write("animais");
+                    else
+                        bw.write("outros");
+                    break;
+            }
+        } catch (IOException e) {
+            System.out.println("[!] Erro ao escrever o produto");
         }
     }
 }
