@@ -1,5 +1,0 @@
-João Silva;182937461;2#Maria Oliveira;297483920;1#Fernanda Rocha;672930183;3#Rui Martins;963740182;3#
-prescricao;Brufen;Comprimidos;2;7.8;6;Jorge Neves#taxaNormal;1;Arroz Integral;Pacotes de 1kg;50;4.5;12#taxaIntermedia;0;Feijão Preto;Lata de 500g;30;3.2;9;enlatados#normal;Sabonete;4 unidades de 50g;12;5.5;23;bemEstar
-João Silva;182937461;2#12/10/2024#prescricao;Brufen;Comprimidos;2;7.8;6;Jorge Neves/taxaNormal;1;Arroz Integral;Pacotes de 1kg;50;4.5;12
-Maria Oliveira;297483920;1#1/2/2024#taxaIntermedia;0;Feijão Preto;Lata de 500g;30;3.2;9;enlatados
-Rui Martins;963740182;3#20/6/2023#normal;Sabonete;4 unidades de 50g;12;5.5;23;bemEstar

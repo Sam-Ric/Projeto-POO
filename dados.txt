@@ -1,0 +1,4 @@
+João Neves;371948172;1#Pedro Antunes;518502784;2#Fernanda Rocha;817471203;3
+João Neves;371948172;1#23/4/2024#taxaReduzida;0;Batatas;Saco de 1kg;25;3.4;6;ISO22000&taxaIntermedia;1;Atum;Lata de 150g;23;1.2;3;enlatados&taxaNormal;0;Cenouras;Saco de 300g;16;2.5;23&prescricao;Anti-biótico;N/A;1;14.1;6;Jorge Neves
+Pedro Antunes;518502784;2#23/11/2024#taxaReduzida;1;Aveia;Saco de 5kg;76;11.8;0;HACCP:GMP&taxaIntermedia;1;Gelados;Pack de 10 unidades;33;9.2;2;congelados&taxaNormal;0;Bife;Unidade de 1kg;27;4.2;22&normal;Perfume;Frasco de 100ml;2;67.9;23;beleza
+Fernanda Rocha;817471203;3#12/9/2024#prescricao;Anti-biótico;N/A;1;15.2;4;Fábio Cruz&normal;Fraldas;50 unidades;13;14.2;23;bebes

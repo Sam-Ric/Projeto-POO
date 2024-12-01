@@ -56,7 +56,7 @@ public class Fatura implements Serializable {
     }
 
     public String toString() {
-        return String.format(" %-3d | %-20s | %-20s | %-11d | %-12.2f | %-12.2f", numFatura, cliente.getNome(), cliente.getLocalizacao(), produtos.getProdutosFatura().size(), calcTotalSemIva(), calcTotalComIva());
+        return String.format(" %-3d | %-20s | %-20s | %-11d | %-12.2f | %-12.2f", numFatura, cliente.getNome(), Static.localizacaoToString(cliente.getLocalizacao()), produtos.getProdutosFatura().size(), calcTotalSemIva(), calcTotalComIva());
     }
 
     public float calcTotalSemIva() {

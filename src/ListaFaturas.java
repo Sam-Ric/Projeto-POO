@@ -245,7 +245,12 @@ public class ListaFaturas implements Serializable {
                     bw.write(taxaReduzida.getQuantidade() + ";");
                     bw.write(taxaReduzida.getValorUnit() + ";");
                     bw.write(taxaReduzida.getIva() + ";");
-                    bw.write(Arrays.toString(taxaReduzida.getCertificacoes()));
+                    String[] certificacoes = taxaReduzida.getCertificacoes();
+                    for (int i = 0; i < certificacoes.length; i++) {
+                        bw.write(certificacoes[i]);
+                        if (i < certificacoes.length - 1)
+                            bw.write(":");
+                    }
                     break;
                 case "taxaIntermedia":
                     TaxaIntermedia taxaIntermedia = (TaxaIntermedia) produto;
@@ -311,4 +316,30 @@ public class ListaFaturas implements Serializable {
             System.out.println("[!] Erro ao escrever o produto");
         }
     }
+
+    public void importarFaturas(String filename, Produtos produtosRegistados) {
+        File f = new File(filename);
+        if (f.exists() && f.isFile()) {
+            try {
+                FileReader fr = new FileReader(f);
+                BufferedReader br = new BufferedReader(fr);
+                String linha;
+                int numFatura = 1;
+                while ((linha = br.readLine()) != null) {
+                    Fatura fatura = Static.parseFatura(linha, numFatura, produtosRegistados);
+                    numFatura++;
+                    faturas.add(fatura);
+                }
+                System.out.println("[!] Faturas importadas com sucesso!");
+                br.close();
+            } catch (FileNotFoundException e) {
+                System.out.println("[!] Ficheiro ao abrir o ficheiro");
+            } catch (IOException e) {
+                System.out.println("[!] Erro ao ler o ficheiro");
+            }
+        } else
+            System.out.println("[!] Ficheiro não encontrado");
+    }
+
+
 }
