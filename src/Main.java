@@ -82,6 +82,8 @@ public class Main {
                     dados.getListaFaturas().exportarFaturas(fileToExport);
                     System.out.println("[!] Ficheiro exportado com sucesso!");
                     break;
+                case "9":
+                    dados.printEstatiscas();
             }
         }
         dados.exportarDados(dados, "autosave.obj");

@@ -184,4 +184,33 @@ public class POO implements Serializable {
         fatura.setProdutos(listaProdutos);
         return fatura;
     }
+    public void printEstatiscas(){
+        ArrayList<Fatura> faturas=listaFaturas.getFaturas();
+        int nFaturas = faturas.size();
+        System.out.println("Numero de faturas: " + nFaturas);
+        int nProdutos=0;
+        for (int i = 0; i < nFaturas; i++) {
+            Fatura fatura = faturas.get(i);
+            nProdutos+=fatura.getProdutos().getProdutosFatura().size();
+        }
+        System.out.println("Numero de produtos: " + nProdutos);
+        float valorTotalSemIva=0f;
+        for (int i = 0; i < nFaturas; i++) {
+            Fatura fatura = faturas.get(i);
+            valorTotalSemIva+=fatura.calcTotalSemIva();
+        }
+        System.out.println("Valor Total Sem IVA: " + valorTotalSemIva);
+        float valorTotalDoIva=0f;
+        for (int i = 0; i < nFaturas; i++) {
+            Fatura fatura = faturas.get(i);
+            valorTotalDoIva+=fatura.calcValorIva();
+        }
+        System.out.println("Valor Total do IVA: " + valorTotalDoIva);
+        float valorTotalComIva=0f;
+        for (int i = 0; i < nFaturas; i++) {
+            Fatura fatura = faturas.get(i);
+            valorTotalComIva+=fatura.calcTotalComIva();
+        }
+        System.out.println("Valor Total Com IVA: " + valorTotalComIva);
+    }
 }
