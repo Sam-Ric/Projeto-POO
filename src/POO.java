@@ -87,7 +87,6 @@ public class POO implements Serializable {
         else {
             System.out.println("[!] Ficheiro 'autosave.obj' não encontrado. A carregar 'dados.txt'...");
             // Ler o ficheiro de texto
-            System.out.println("[DEBUG] dados.txt existe? -> " + new File("dados.txt").exists());
             try {
                 File f = new File("dados.txt");
                 FileReader fr = new FileReader(f);
@@ -100,7 +99,7 @@ public class POO implements Serializable {
                 ListaClientes listaClientes = new ListaClientes();
                 for (int i = 0; i < clientes.length; i++) {
                     String[] dadosCliente = clientes[i].split(";");
-                    Cliente cliente = Static.parseCliente(dadosCliente);
+                    Cliente cliente = listaFaturas.parseCliente(dadosCliente);
                     listaClientes.getClientes().add(cliente);
                 }
                 res.setListaClientes(listaClientes);
@@ -110,7 +109,8 @@ public class POO implements Serializable {
                 ArrayList<Fatura> faturas = listaFaturas.getFaturas();
                 int numFatura = 1;
                 while ((linha = br.readLine()) != null) {
-                    Fatura fatura = Static.parseFatura(linha, numFatura, produtosRegistados);
+                    Fatura fatura = listaFaturas.parseFatura(linha, numFatura, produtosRegistados);
+                    numFatura++;
                     faturas.add(fatura);
                 }
                 res.setListaFaturas(listaFaturas);
@@ -124,93 +124,43 @@ public class POO implements Serializable {
         return res;
     }
 
-    private Fatura parseFatura(String linha) {
-        String[] dados = linha.split("#");
-        Fatura fatura = new Fatura();
-
-        // Obter os dados do cliente
-        Cliente cliente = new Cliente();
-        String[] dadosCliente = dados[0].split(";");
-        cliente.setNome(dadosCliente[0]);
-        cliente.setNif(Integer.parseInt(dadosCliente[1]));
-        switch (dadosCliente[2]) {
-            case "1":
-                cliente.setLocalizacao(Localizacao.continente);
-                break;
-            case "2":
-                cliente.setLocalizacao(Localizacao.madeira);
-                break;
-            case "3":
-                cliente.setLocalizacao(Localizacao.acores);
-                break;
-        }
-        fatura.setCliente(cliente);
-
-        // Obter a data da fatura
-        String[] arrayData = dados[1].split("/");
-        Data data = new Data(Integer.parseInt(arrayData[0]), Integer.parseInt(arrayData[1]), Integer.parseInt(arrayData[2]));
-        fatura.setData(data);
-
-        // Obter os produtos da fatura
-        ListaProdutos listaProdutos = new ListaProdutos();
-        ArrayList<Produto> produtos = new ArrayList<>();
-        String[] produtosFatura = dados[2].split("/");
-        for (int i = 0; i < produtosFatura.length; i++) {
-            String[] temp = produtosFatura[i].split(";");
-            switch (temp[0]) {
-                case "prescricao":
-                    Prescricao prescricao = Static.parsePrescricao(temp);
-                    produtos.add(prescricao);
-                    break;
-                case "normal":
-                    Normal normal = Static.parseNormal(temp);
-                    produtos.add(normal);
-                    break;
-                case "taxaNormal":
-                    TaxaNormal taxaNormal = Static.parseTaxaNormal(temp);
-                    produtos.add(taxaNormal);
-                    break;
-                case "taxaIntermedia":
-                    TaxaIntermedia taxaIntermedia = Static.parseTaxaIntermedia(temp);
-                    produtos.add(taxaIntermedia);
-                    break;
-                case "taxaReduzida":
-                    TaxaReduzida taxaReduzida = Static.parseTaxaReduzida(temp);
-                    produtos.add(taxaReduzida);
-                    break;
-            }
-        }
-        listaProdutos.setProdutosFatura(produtos);
-        fatura.setProdutos(listaProdutos);
-        return fatura;
-    }
     public void printEstatiscas(){
+        System.out.println("========== ESTATÍSTICA ==========");
+        // Obter o numero de faturas
         ArrayList<Fatura> faturas=listaFaturas.getFaturas();
         int nFaturas = faturas.size();
-        System.out.println("Numero de faturas: " + nFaturas);
+        System.out.println("Número de faturas: " + nFaturas);
+
+        // Obter o numero total de produtos
         int nProdutos=0;
         for (int i = 0; i < nFaturas; i++) {
             Fatura fatura = faturas.get(i);
             nProdutos+=fatura.getProdutos().getProdutosFatura().size();
         }
-        System.out.println("Numero de produtos: " + nProdutos);
+        System.out.println("Número de produtos: " + nProdutos);
+
+        // Calcular o valor total sem IVA
         float valorTotalSemIva=0f;
         for (int i = 0; i < nFaturas; i++) {
             Fatura fatura = faturas.get(i);
             valorTotalSemIva+=fatura.calcTotalSemIva();
         }
-        System.out.println("Valor Total Sem IVA: " + valorTotalSemIva);
-        float valorTotalDoIva=0f;
-        for (int i = 0; i < nFaturas; i++) {
-            Fatura fatura = faturas.get(i);
-            valorTotalDoIva+=fatura.calcValorIva();
-        }
-        System.out.println("Valor Total do IVA: " + valorTotalDoIva);
+        System.out.printf("Valor Total Sem IVA: %.2f\n", valorTotalSemIva);
+
+        // Calcular o valor total com IVA
         float valorTotalComIva=0f;
         for (int i = 0; i < nFaturas; i++) {
             Fatura fatura = faturas.get(i);
             valorTotalComIva+=fatura.calcTotalComIva();
         }
-        System.out.println("Valor Total Com IVA: " + valorTotalComIva);
+        System.out.printf("Valor Total Com IVA: %.2f\n", valorTotalComIva);
+
+        // Calcular o valor total do IVA
+        float valorTotalDoIva=0f;
+        for (int i = 0; i < nFaturas; i++) {
+            Fatura fatura = faturas.get(i);
+            valorTotalDoIva+=fatura.calcValorIva();
+        }
+        System.out.printf("Valor Total do IVA: %.2f\n", valorTotalDoIva);
     }
 }

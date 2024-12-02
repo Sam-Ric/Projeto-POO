@@ -29,6 +29,4 @@ public class Static {
         }
         return res;
     }
-
-
 }
