@@ -6,7 +6,7 @@ public class Main {
     public static void main(String[] args) {
         // Inicializar os ArrayLists (APENAS PARA TESTES)
         POO dados = new POO();
-        dados = dados.fetchDados();
+        //dados = dados.fetchDados();
         // TUI (Terminal User Interface)
         System.out.println("\n" +
                 "\n" +
@@ -74,13 +74,11 @@ public class Main {
                     System.out.print("Nome do ficheiro a importar:\n>> ");
                     String fileToImport = sc.nextLine();
                     dados.getListaFaturas().importarFaturas(fileToImport, dados.getProdutosRegistados());
-                    System.out.println("[!] Ficheiro importado com sucesso!");
                     break;
                 case "8":
                     System.out.print("Nome do ficheiro a exportar:\n>> ");
                     String fileToExport = sc.nextLine();
                     dados.getListaFaturas().exportarFaturas(fileToExport);
-                    System.out.println("[!] Ficheiro exportado com sucesso!");
                     break;
                 case "9":
                     dados.printEstatiscas();

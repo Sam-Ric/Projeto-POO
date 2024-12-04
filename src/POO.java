@@ -52,6 +52,7 @@ public class POO implements Serializable {
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(dados);
             oos.close();
+            System.out.println("[!] Ficheiro exportado com sucesso!");
         } catch (FileNotFoundException e) {
             System.out.println("[!] Erro a criar o ficheiro");
         } catch (IOException e) {
@@ -67,6 +68,7 @@ public class POO implements Serializable {
             ObjectInputStream ois = new ObjectInputStream(fis);
             res = (POO)ois.readObject();
             ois.close();
+            System.out.println("[!] Ficheiro importado com sucesso!");
         } catch (FileNotFoundException e) {
             System.out.println("[!] Erro a abrir o ficheiro");
         } catch (IOException e) {

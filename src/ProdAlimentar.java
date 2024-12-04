@@ -41,4 +41,8 @@ public class ProdAlimentar extends Produto implements Serializable {
                 "    Valor c/ IVA: " + calcTotalComIva() + "\n" +
                 "    Valor do IVA: " + calcValorIva();
     }
+
+    public boolean validProduto() {
+        return super.validProduto();
+    }
 }

@@ -69,4 +69,10 @@ public class Normal extends ProdFarmacia implements Serializable {
                 String.format("    Valor c/ IVA: %-6.2f\n", calcTotalComIva()) +
                 String.format("    Valor do IVA: %-6.2f", calcValorIva());
     }
+
+    public boolean validProduto() {
+        boolean res = super.validProduto();
+        res = res && categoria != null;
+        return res;
+    }
 }

@@ -171,6 +171,7 @@ public class ListaFaturas implements Serializable {
         try {
             FileWriter fw = new FileWriter(f);
             BufferedWriter bw = new BufferedWriter(fw);
+            bw.write("importable\n");
             for (Fatura fatura : faturas) {
                 bw.write(fatura.getCliente().getNome() + ";");  // Nome do cliente
                 bw.write(fatura.getCliente().getNif() + ";");             // NIF do cliente
@@ -319,18 +320,27 @@ public class ListaFaturas implements Serializable {
 
     public void importarFaturas(String filename, Produtos produtosRegistados) {
         File f = new File(filename);
-        if (f.exists() && f.isFile()) {
+        if (f.exists() && f.isFile() && filename.endsWith(".txt")) {
             try {
                 FileReader fr = new FileReader(f);
                 BufferedReader br = new BufferedReader(fr);
                 String linha;
                 int numFatura = 1;
-                while ((linha = br.readLine()) != null) {
-                    Fatura fatura = parseFatura(linha, numFatura, produtosRegistados);
-                    numFatura++;
-                    faturas.add(fatura);
+                linha = br.readLine();
+                if (linha.equals("importable")) {
+                    // Limpar o array de faturas
+                    faturas.clear();
+                    while ((linha = br.readLine()) != null) {
+                        Fatura fatura = parseFatura(linha, numFatura, produtosRegistados);
+                        if (validFatura(fatura)) {
+                            numFatura++;
+                            faturas.add(fatura);
+                        }
+                    }
+                    System.out.println("[!] Faturas importadas com sucesso!");
+                } else {
+                    System.out.println("[!] Não é possível importar o ficheiro");
                 }
-                System.out.println("[!] Faturas importadas com sucesso!");
                 br.close();
             } catch (FileNotFoundException e) {
                 System.out.println("[!] Ficheiro ao abrir o ficheiro");
@@ -338,52 +348,69 @@ public class ListaFaturas implements Serializable {
                 System.out.println("[!] Erro ao ler o ficheiro");
             }
         } else
-            System.out.println("[!] Ficheiro não encontrado");
+            System.out.println("[!] Ficheiro não encontrado ou inválido");
     }
 
     public Fatura parseFatura(String linha, int numFatura, Produtos produtosRegistados) {
         Fatura fatura = new Fatura(numFatura);
         // Separar os diferentes elementos constituintes da fatura
         String[] dadosFatura = linha.split("#");
+        if (dadosFatura.length != 3)
+            System.out.println("[!] Fatura com formato inválido");
+        else {
+            // Obter os dados do cliente
+            String[] dadosCliente = dadosFatura[0].split(";");
+            if (dadosCliente.length != 3)
+                System.out.println("[!] Fatura com formato inválido");
+            else {
+                fatura.setCliente(parseCliente(dadosCliente));
 
-        // Obter os dados do cliente
-        String[] dadosCliente = dadosFatura[0].split(";");
-        fatura.setCliente(parseCliente(dadosCliente));
+                // Obter a data da fatura
+                String[] data = dadosFatura[1].split("/");
+                fatura.setData(fatura.parseData(data));
 
-        // Obter a data da fatura
-        String[] data = dadosFatura[1].split("/");
-        fatura.setData(fatura.parseData(data));
-
-        // Obter os produtos associados à fatura
-        String[] produtos = dadosFatura[2].split("&");
-        for (int i = 0; i < produtos.length; i++) {
-            String[] dadosProduto = produtos[i].split(";");
-            switch (dadosProduto[0]) {
-                case "prescricao":
-                    Prescricao prescricao = fatura.parsePrescricao(dadosProduto);
-                    fatura.getProdutos().getProdutosFatura().add(prescricao);
-                    produtosRegistados.registarProduto(prescricao);
-                    break;
-                case "normal":
-                    Normal normal = fatura.parseNormal(dadosProduto);
-                    fatura.getProdutos().getProdutosFatura().add(normal);
-                    produtosRegistados.registarProduto(normal);
-                    break;
-                case "taxaNormal":
-                    TaxaNormal taxaNormal = fatura.parseTaxaNormal(dadosProduto);
-                    fatura.getProdutos().getProdutosFatura().add(taxaNormal);
-                    produtosRegistados.registarProduto(taxaNormal);
-                    break;
-                case "taxaIntermedia":
-                    TaxaIntermedia taxaIntermedia = fatura.parseTaxaIntermedia(dadosProduto);
-                    fatura.getProdutos().getProdutosFatura().add(taxaIntermedia);
-                    produtosRegistados.registarProduto(taxaIntermedia);
-                    break;
-                case "taxaReduzida":
-                    TaxaReduzida taxaReduzida = fatura.parseTaxaReduzida(dadosProduto);
-                    fatura.getProdutos().getProdutosFatura().add(taxaReduzida);
-                    produtosRegistados.registarProduto(taxaReduzida);
-                    break;
+                // Obter os produtos associados à fatura
+                String[] produtos = dadosFatura[2].split("&");
+                for (int i = 0; i < produtos.length; i++) {
+                    String[] dadosProduto = produtos[i].split(";");
+                    switch (dadosProduto[0]) {
+                        case "prescricao":
+                            Prescricao prescricao = fatura.parsePrescricao(dadosProduto);
+                            if (prescricao != null) {
+                                produtosRegistados.registarProduto(prescricao);
+                                fatura.getProdutos().getProdutosFatura().add(prescricao);
+                            }
+                            break;
+                        case "normal":
+                            Normal normal = fatura.parseNormal(dadosProduto);
+                            if (normal != null) {
+                                produtosRegistados.registarProduto(normal);
+                                fatura.getProdutos().getProdutosFatura().add(normal);
+                            }
+                            break;
+                        case "taxaNormal":
+                            TaxaNormal taxaNormal = fatura.parseTaxaNormal(dadosProduto);
+                            if (taxaNormal != null) {
+                                produtosRegistados.registarProduto(taxaNormal);
+                                fatura.getProdutos().getProdutosFatura().add(taxaNormal);
+                            }
+                            break;
+                        case "taxaIntermedia":
+                            TaxaIntermedia taxaIntermedia = fatura.parseTaxaIntermedia(dadosProduto);
+                            if (taxaIntermedia != null) {
+                                produtosRegistados.registarProduto(taxaIntermedia);
+                                fatura.getProdutos().getProdutosFatura().add(taxaIntermedia);
+                            }
+                            break;
+                        case "taxaReduzida":
+                            TaxaReduzida taxaReduzida = fatura.parseTaxaReduzida(dadosProduto);
+                            if (taxaReduzida != null) {
+                                produtosRegistados.registarProduto(taxaReduzida);
+                                fatura.getProdutos().getProdutosFatura().add(taxaReduzida);
+                            }
+                            break;
+                    }
+                }
             }
         }
         return fatura;
@@ -392,18 +419,36 @@ public class ListaFaturas implements Serializable {
     public Cliente parseCliente(String[] dadosCliente) {
         Cliente cliente = new Cliente();
         cliente.setNome(dadosCliente[0]);
-        cliente.setNif(Integer.parseInt(dadosCliente[1]));
-        switch (dadosCliente[2]) {
-            case "1":
-                cliente.setLocalizacao(Localizacao.continente);
-                break;
-            case "2":
-                cliente.setLocalizacao(Localizacao.madeira);
-                break;
-            case "3":
-                cliente.setLocalizacao(Localizacao.acores);
-                break;
+        try {
+            cliente.setNif(Integer.parseInt(dadosCliente[1]));
+            switch (dadosCliente[2]) {
+                case "1":
+                    cliente.setLocalizacao(Localizacao.continente);
+                    break;
+                case "2":
+                    cliente.setLocalizacao(Localizacao.madeira);
+                    break;
+                case "3":
+                    cliente.setLocalizacao(Localizacao.acores);
+                    break;
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("[!] Fatura com formato inválido");
+            cliente = null;
         }
         return cliente;
+    }
+
+    private boolean validFatura(Fatura fatura) {
+        boolean res;
+        // Verificar se o cliente lido é válido
+        res = fatura.getCliente() != null;
+        // Verificar se a data é válida
+        res = res && fatura.getData() != null;
+        // Verificar se todos os produtos são válidos
+        for (Produto produto : fatura.getProdutos().getProdutosFatura()) {
+            res = res && produto.validProduto();
+        }
+        return res;
     }
 }

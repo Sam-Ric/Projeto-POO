@@ -17,4 +17,8 @@ public class TaxaNormal extends ProdAlimentar implements Serializable {
     public String toString() {
         return super.toString();
     }
+
+    public boolean validProduto() {
+        return super.validProduto();
+    }
 }

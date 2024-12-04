@@ -95,4 +95,15 @@ public class Produto implements Serializable {
     public float calcValorIva() {
         return calcTotalComIva() - calcTotalSemIva();
     }
+
+    public boolean validProduto() {
+        boolean res;
+        res =  codigo != 0;
+        res = res && nome != null && !nome.isEmpty();
+        res = res && desc != null && !desc.isEmpty();
+        res = res && quantidade > 0;
+        res = res && valorUnit > 0;
+        res = res && iva >= 0;
+        return res;
+    }
 }

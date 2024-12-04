@@ -297,8 +297,15 @@ public class ListaProdutos implements Serializable {
         produto.setNome(sc.nextLine());
     
         // Obter a descricao do produto
-        System.out.print("\nInsira uma breve descrição do produto:\n>> ");
-        produto.setDesc(sc.nextLine());
+        System.out.println("\nInsira uma breve descrição do produto:");
+        boolean validDesc = false;
+        String desc;
+        do {
+            System.out.print(">> ");
+            desc = sc.nextLine();
+            validDesc = verificarDescricao(desc);
+        } while (!validDesc);
+        produto.setDesc(desc);
     
         // Obter a quantidade do produto
         System.out.println("\nInsira a quantidade do produto:");
@@ -336,6 +343,16 @@ public class ListaProdutos implements Serializable {
             produto.setIva(taxaMadeira);
         else if (cliente.getLocalizacao() == Localizacao.acores)
             produto.setIva(taxaAcores);
+    }
+
+    private boolean verificarDescricao(String desc) {
+        boolean res = true;
+        for (int i = 0; i < desc.length(); i++)
+            if (desc.charAt(i) == '#' || desc.charAt(i) == ';' || desc.charAt(i) == '/') {
+                System.out.printf("[!] Uso inválido do caractere '%c'\n", desc.charAt(i));
+                res = false;
+            }
+        return res;
     }
 }
 
