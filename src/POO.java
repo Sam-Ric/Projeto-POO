@@ -52,7 +52,7 @@ public class POO implements Serializable {
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(dados);
             oos.close();
-            System.out.println("[!] Ficheiro exportado com sucesso!");
+            System.out.printf("[!] Ficheiro '%s' exportado com sucesso!\n", fileName);
         } catch (FileNotFoundException e) {
             System.out.println("[!] Erro a criar o ficheiro");
         } catch (IOException e) {
@@ -68,7 +68,7 @@ public class POO implements Serializable {
             ObjectInputStream ois = new ObjectInputStream(fis);
             res = (POO)ois.readObject();
             ois.close();
-            System.out.println("[!] Ficheiro importado com sucesso!");
+            System.out.printf("[!] Ficheiro '%s' importado com sucesso!\n", fileName);
         } catch (FileNotFoundException e) {
             System.out.println("[!] Erro a abrir o ficheiro");
         } catch (IOException e) {
@@ -81,11 +81,9 @@ public class POO implements Serializable {
 
     public POO fetchDados() {
         POO res = new POO();
-        File objectFile = new File("autosave1.obj");
-        if (objectFile.exists()) {
+        File objectFile = new File("autosave.obj");
+        if (objectFile.exists())
             res = importarDados("autosave.obj");
-            System.out.println("[!] Ficheiro 'autosave.obj' importado com sucesso!");
-        }
         else {
             System.out.println("[!] Ficheiro 'autosave.obj' não encontrado. A carregar 'dados.txt'...");
             // Ler o ficheiro de texto

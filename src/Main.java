@@ -4,9 +4,9 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        // Inicializar os ArrayLists (APENAS PARA TESTES)
         POO dados = new POO();
-        //dados = dados.fetchDados();
+        dados = dados.fetchDados();
+
         // TUI (Terminal User Interface)
         System.out.println("\n" +
                 "\n" +
@@ -71,13 +71,17 @@ public class Main {
                     }
                     break;
                 case "7":
-                    System.out.print("Nome do ficheiro a importar:\n>> ");
+                    System.out.print("Nome do ficheiro a importar: (ficheiro .txt)\n>> ");
                     String fileToImport = sc.nextLine();
                     dados.getListaFaturas().importarFaturas(fileToImport, dados.getProdutosRegistados());
                     break;
                 case "8":
-                    System.out.print("Nome do ficheiro a exportar:\n>> ");
-                    String fileToExport = sc.nextLine();
+                    System.out.println("Nome do ficheiro a exportar: (ficheiro .txt)");
+                    String fileToExport;
+                    do {
+                        System.out.print(">> ");
+                        fileToExport = sc.nextLine();
+                    } while (!fileToExport.endsWith(".txt") || fileToExport.length() < 5);
                     dados.getListaFaturas().exportarFaturas(fileToExport);
                     break;
                 case "9":

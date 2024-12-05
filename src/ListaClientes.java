@@ -52,10 +52,11 @@ public class ListaClientes implements Serializable {
     private void getDadosCliente(Cliente cliente) {
         Scanner sc = new Scanner(System.in);
         // Obter o nome do cliente
-        System.out.print("\nInsira o nome:\n>> ");
+        System.out.println("Insira o nome:");
         String nome = "N/A";
         boolean validNome = false;
         while (!validNome) {
+            System.out.print(">> ");
             nome = sc.nextLine();
             validNome = Static.verifyNome(nome);
         }
