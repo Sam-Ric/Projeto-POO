@@ -161,7 +161,8 @@ public class ListaFaturas implements Serializable {
             try{
                 String[] temp = dataFatura.split("/");
 
-                if(temp.length==3 && data.isDiaValido(Integer.parseInt(temp[0])) && data.isMesValido(Integer.parseInt(temp[1]))&& temp[2].length()==4){
+                if(temp.length==3 && data.isDiaValido(Integer.parseInt(temp[0])) &&
+                        data.isMesValido(Integer.parseInt(temp[1]))&& temp[2].length()==4){
                     data.setDia(Integer.parseInt(temp[0]));
                     data.setMes(Integer.parseInt(temp[1]));
                     data.setAno(Integer.parseInt(temp[2]));
