@@ -1,34 +1,67 @@
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Scanner;
 
+/**
+ * Classe para gerir as faturas registadas na aplicação
+ *
+ * @author Bernardo Mateus e Samuel Riça
+ * @version 1.0
+ */
 public class ListaFaturas implements Serializable {
-    // Atributos da classe
+    /**
+     * ArrayList que armazena as faturas
+     */
     private ArrayList<Fatura> faturas;
+    /**
+     * Variável com o número da próxima fatura a ser adicionada
+     */
     private int numFaturaAtual;
 
-    // Construtores
+    /**
+     * Construtor por omissão, inicializa o ArrayList das faturas e
+     * a variável com o número da próxima fatura a ser adicionada
+     */
     public ListaFaturas() {
         faturas = new ArrayList<Fatura>();
         numFaturaAtual = 1;
     }
 
+    /**
+     * Construtor da classe, recebe dados para inicializar o ArrayList
+     * e a variável com o número da próxima fatura a ser adicionada
+     * @param faturas ArrayList de faturas
+     * @param numFaturaAtual Número a ser atribuído à próxima fatura a
+     *                       a ser inserida
+     */
     public ListaFaturas(ArrayList<Fatura> faturas, int numFaturaAtual) {
         this.faturas = faturas;
         this.numFaturaAtual = numFaturaAtual;
     }
 
     // Metodos de acesso
+
+    /**
+     * Metodo de acesso ao atributo 'faturas' (getter)
+     * @return ArrayList de faturas
+     */
     public ArrayList<Fatura> getFaturas() {
         return faturas;
     }
 
+    /**
+     * Metodo de acesso ao atributo 'faturas' (setter)
+     * @param faturas ArrayList de faturas
+     */
     public void setFaturas(ArrayList<Fatura> faturas) {
         this.faturas = faturas;
     }
 
-
+    /**
+     * Metodo para imprimir as faturas armazenadas no ArrayList de
+     * faturas. Percorre o ArrayList e invoca o metodo toString de
+     * cada uma das faturas, formatando os dados numa tabela
+     */
     public void printFaturas() {
         if (faturas.size() == 0)
             System.out.println("[!] Não existem faturas para imprimir!");
@@ -40,8 +73,14 @@ public class ListaFaturas implements Serializable {
         }
     }
 
+    /**
+     * Metodo para adicionar uma nova fatura ao ArrayList de faturas,
+     * invoca o metodo getDadosFatura para obter os dados da fatura
+     *
+     * @param clientes Lista de clientes
+     * @param produtosRegistados Lista de produtos registados
+     */
     public void addFatura(ListaClientes clientes, Produtos produtosRegistados) {
-        Scanner sc = new Scanner(System.in);
         // Criar uma nova fatura e atribuir-lhe um número com base no número de faturas presente no ArrayList
         Fatura fatura = new Fatura(numFaturaAtual);
         numFaturaAtual++;
@@ -51,6 +90,15 @@ public class ListaFaturas implements Serializable {
         faturas.add(fatura);
     }
 
+    /**
+     * Metodo para editar uma fatura já existente no ArrayList de
+     * faturas, pedindo ao utilizador para associar novamente um
+     * cliente e uma data de emissão e permitindo que este faça
+     * alterações no ArrayList de produtos da fatura
+     *
+     * @param clientes Lista de clientes
+     * @param produtosRegistados Lista de produtos registados
+     */
     public void editFatura(ListaClientes clientes, Produtos produtosRegistados) {
         if (faturas.size() != 0) {
             // Imprimir todas as faturas registadas
@@ -82,6 +130,16 @@ public class ListaFaturas implements Serializable {
 
     }
 
+    /**
+     * Metodo para pedir ao utilizador os dados de uma fatura, nomeadamente
+     * associar um cliente existente ou criar um caso não haja nenhum
+     * registado, uma data de emissão e permitindo que este realize
+     * operações no ArrayList de produtos da fatura
+     *
+     * @param fatura Fatura onde os dados irão ser inseridos
+     * @param clientes Lista de clientes
+     * @param produtosRegistados Lista de produtos registados
+     */
     private void getDadosFatura(Fatura fatura, ListaClientes clientes, Produtos produtosRegistados) {
         Scanner sc = new Scanner(System.in);
         // Caso não existam clientes registados, o utilizador deve registar um
@@ -166,6 +224,12 @@ public class ListaFaturas implements Serializable {
         }
     }
 
+    /**
+     * Metodo que permite exportar as faturas para um ficheiro de
+     * texto com o nome passado como argumento
+     *
+     * @param filename Nome do ficheiro a exportar
+     */
     public void exportarFaturas(String filename) {
         File f = new File(filename);
         try {
@@ -201,6 +265,13 @@ public class ListaFaturas implements Serializable {
         }
     }
 
+    /**
+     * Metodo para encontrar o tipo do produto passado como argumento
+     * com base na sua classe
+     *
+     * @param produto Produto cujo tipo é desconhecido
+     * @return Tipo do produto
+     */
     private String findTipoProduto(Produto produto) {
         // Verificar se o produto é de taxa reduzida
         try {
@@ -232,6 +303,16 @@ public class ListaFaturas implements Serializable {
         return "null";
     }
 
+    /**
+     * Metodo para escrever um produto de um tipo passado como argumento
+     * num ficheiro de texto também passado como argumento
+     *
+     * @param tipo Tipo do produto
+     * @param produto Produto a ser escrito
+     * @param f Ficheiro onde o produto será escrito
+     * @param fw FileWriter que permite a escrita no ficheiro
+     * @param bw BufferedWriter que permite a escrita no ficheiro
+     */
     private void writeProduto(String tipo, Produto produto, File f, FileWriter fw, BufferedWriter bw) {
         try {
             switch (tipo) {
@@ -318,6 +399,14 @@ public class ListaFaturas implements Serializable {
         }
     }
 
+    /**
+     * Metodo para importar um ficheiro de texto contendo faturas,
+     * verificando a integridade do ficheiro a importar e invocando
+     * metodos para efetuar o parsing do texto lido
+     *
+     * @param filename Nome do ficheiro a importar
+     * @param produtosRegistados Lista de produtos registados
+     */
     public void importarFaturas(String filename, Produtos produtosRegistados) {
         File f = new File(filename);
         if (f.exists() && f.isFile() && filename.endsWith(".txt")) {
@@ -351,6 +440,15 @@ public class ListaFaturas implements Serializable {
             System.out.println("[!] Ficheiro não encontrado ou inválido");
     }
 
+    /**
+     * Metodo que efetua o parsing de uma linha contendo todos os dados
+     * de uma fatura, armazenando-os num objeto Fatura que será devolvido
+     *
+     * @param linha Linha do ficheiro de texto com os dados de uma fatura
+     * @param numFatura Número a ser atribuído à fatura
+     * @param produtosRegistados Lista de produtos registados
+     * @return Objeto Fatura com todos os dados presentes na linha
+     */
     public Fatura parseFatura(String linha, int numFatura, Produtos produtosRegistados) {
         Fatura fatura = new Fatura(numFatura);
         // Separar os diferentes elementos constituintes da fatura
@@ -416,6 +514,14 @@ public class ListaFaturas implements Serializable {
         return fatura;
     }
 
+    /**
+     * Metodo para efetuar o parsing dos dados de um cliente passados
+     * como array de strings, devolvendo um objeto Cliente contendo
+     * os dados extraídos do array passado como argumento
+     *
+     * @param dadosCliente Array com os dados do cliente
+     * @return Objeto Cliente gerado com os dados do array de strings
+     */
     public Cliente parseCliente(String[] dadosCliente) {
         Cliente cliente = new Cliente();
         cliente.setNome(dadosCliente[0]);
@@ -439,6 +545,14 @@ public class ListaFaturas implements Serializable {
         return cliente;
     }
 
+    /**
+     * Metodo que verifica se todos os atributos de um objeto Fatura
+     * foram inicializados corretamente, devolvendo o valor booleano
+     * true em caso afirmativo e false em caso contrário
+     *
+     * @param fatura Fatura a ser verificada
+     * @return Valor booleano com a validade da fatura
+     */
     private boolean validFatura(Fatura fatura) {
         boolean res;
         // Verificar se o cliente lido é válido
