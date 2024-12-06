@@ -314,8 +314,11 @@ public class ListaProdutos implements Serializable {
             System.out.print(">> ");
             String quantidade = sc.nextLine();
             try {
-                produto.setQuantidade(Integer.parseInt(quantidade));
+                int temp = Integer.parseInt(quantidade);
+                produto.setQuantidade(temp);
                 validQuantidade = true;
+                if (temp <= 0)
+                    validQuantidade = false;
             } catch (NumberFormatException e) {
                 System.out.println("[!] Quantidade inválida");
             }
@@ -328,8 +331,11 @@ public class ListaProdutos implements Serializable {
             System.out.print(">> ");
             String valor = sc.nextLine();
             try {
-                produto.setValorUnit(Float.parseFloat(valor));
+                float temp = Float.parseFloat(valor);
+                produto.setValorUnit(temp);
                 validValor = true;
+                if (temp <= 0f)
+                    validValor = false;
             } catch (NumberFormatException e) {
                 System.out.println("[!] Valor inválido");
             }

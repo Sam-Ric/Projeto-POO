@@ -180,8 +180,11 @@ public class POO implements Serializable {
                 int numFatura = 1;
                 while ((linha = br.readLine()) != null) {
                     Fatura fatura = listaFaturas.parseFatura(linha, numFatura, produtosRegistados);
-                    numFatura++;
-                    faturas.add(fatura);
+                    if (listaFaturas.validFatura(fatura)) {
+                        numFatura++;
+                        faturas.add(fatura);
+                        listaFaturas.setNumFaturaAtual(numFatura);
+                    }
                 }
                 res.setListaFaturas(listaFaturas);
                 System.out.println("[!] Ficheiro 'dados.txt' importado com sucesso!");

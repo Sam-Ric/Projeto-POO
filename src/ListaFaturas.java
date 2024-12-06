@@ -58,6 +58,22 @@ public class ListaFaturas implements Serializable {
     }
 
     /**
+     * Metodo de acesso ao atributo 'numFaturaAtual' (getter)
+     * @return Número a ser atribuído à próxima fatura a ser registada
+     */
+    public int getNumFaturaAtual() {
+        return numFaturaAtual;
+    }
+
+    /**
+     * Metodo de acesso ao atributo 'numFaturaAtual' (setter)
+     * @param numFaturaAtual Número a ser atribuído à próxima fatura a ser registada
+     */
+    public void setNumFaturaAtual(int numFaturaAtual) {
+        this.numFaturaAtual = numFaturaAtual;
+    }
+
+    /**
      * Metodo para imprimir as faturas armazenadas no ArrayList de
      * faturas. Percorre o ArrayList e invoca o metodo toString de
      * cada uma das faturas, formatando os dados numa tabela
@@ -554,7 +570,7 @@ public class ListaFaturas implements Serializable {
      * @param fatura Fatura a ser verificada
      * @return Valor booleano com a validade da fatura
      */
-    private boolean validFatura(Fatura fatura) {
+    public boolean validFatura(Fatura fatura) {
         boolean res;
         // Verificar se o cliente lido é válido
         res = fatura.getCliente() != null;
