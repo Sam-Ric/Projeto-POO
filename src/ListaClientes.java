@@ -26,7 +26,7 @@ public class ListaClientes implements Serializable {
 
 
     public void printClientes() {
-        System.out.println(String.format("\n %-25s | %-9s | %-20s", "NOME DO CLIENTE", "NIF", "LOCALIZAÇÃO"));
+        System.out.printf("\n %-25s | %-9s | %-20s%n", "NOME DO CLIENTE", "NIF", "LOCALIZAÇÃO");
         for (Cliente cliente : clientes) {
             System.out.println(cliente);
         }
@@ -68,7 +68,7 @@ public class ListaClientes implements Serializable {
             System.out.print(">> ");
             String nif = sc.nextLine();
             try {
-                if (nif.length() == 9) {
+                if (verifyNif(Integer.parseInt(nif))) {
                     cliente.setNif(Integer.parseInt(nif));
                     validNif = true;
                 } else
@@ -113,9 +113,8 @@ public class ListaClientes implements Serializable {
             printClientes();
             // Recebe input do utilizador
             Scanner scanner = new Scanner(System.in);
-            System.out.print("\nInsira o nome ou o NIF do cliente que pretende associar à fatura:\n>> ");
+            System.out.print("\nInsira o NIF do cliente que pretende associar à fatura:\n>> ");
             String input = scanner.nextLine();
-            // Caso seja fornecido um NIF
             try {
                 int nif = Integer.parseInt(input);
                 // Verifica se o NIF fornecido é válido
@@ -134,22 +133,26 @@ public class ListaClientes implements Serializable {
                         System.out.println("[!] Cliente não encontrado");
                 }
             }
-            // Caso seja fornecido um nome
             catch (NumberFormatException e) {
-                String nome = input;
-                // Procura o cliente com o nome dado pelo utilizador
-                boolean found = false;
-                for (Cliente cliente : clientes) {
-                    if (cliente.getNome().equalsIgnoreCase(nome)) {
-                        found = true;
-                        res = cliente;
-                    }
-                }
-                if (!found)
-                    System.out.println("[!] Cliente não encontrado");
+                System.out.println("[!]NIF invalido");
             }
         } else
             System.out.println("[!] Não existem clientes registados");
         return res;
+    }
+    private boolean verifyNif(int nif) {
+        boolean valid = true;
+        if(nif!=9){
+            valid = false;
+        }
+        else{
+            for (Cliente cliente : clientes) {
+                if (cliente.getNif() == nif) {
+                    valid = false;
+                    break;
+                }
+            }
+        }
+        return valid;
     }
 }
