@@ -1,20 +1,61 @@
 import java.io.Serializable;
 
+/**
+ * Enum com as possíveis categorias de um produto de
+ * farmácia sem prescrição
+ */
 enum CategoriaNormal {
+    /**
+     * Produto beleza
+     */
     beleza,
+    /**
+     * Produto da categoria bem-estar
+     */
     bemEstar,
+    /**
+     * Produto para bebés
+     */
     bebes,
+    /**
+     * Produto para animais
+     */
     animais,
+    /**
+     * Produto de outra categoria
+     */
     outros
 }
 
+/**
+ * Classe que representa um produto de farmácia sem prescrição
+ *
+ * @author Bernardo Mateus e Samuel Riça
+ * @version 1.0
+ */
 public class Normal extends ProdFarmacia implements Serializable {
-    // Atributos da classe
+    /**
+     * Categoria do produto
+     */
     private CategoriaNormal categoria;
 
-    // Construtores
+    /**
+     * Construtor por omissão
+     */
     public Normal() {}
 
+    /**
+     * Construtor da classe, recebe dados para a inicialização
+     * dos atributos
+     *
+     * @param codigo Código do produto
+     * @param nome Nome do produto
+     * @param desc Descrição
+     * @param quantidade Quantidade do produto
+     * @param valorUnit Valor unitário
+     * @param iva Taxa do IVA
+     * @param categoria Categoria do produto
+     */
     public Normal(int codigo, String nome, String desc, int quantidade, float valorUnit, int iva, CategoriaNormal categoria) {
         this.codigo = codigo;
         this.nome = nome;
@@ -25,15 +66,29 @@ public class Normal extends ProdFarmacia implements Serializable {
         this.categoria = categoria;
     }
 
-    // Metodos de acesso
+    /**
+     * Metodo de acesso ao atributo 'categoria' (getter)
+     * @return Categoria do produto
+     */
     public CategoriaNormal getCategoria() {
         return categoria;
     }
 
+    /**
+     * Metodo de acesso ao atributo 'categoria' (setter)
+     * @param categoria Categoria do produto
+     */
     public void setCategoria(CategoriaNormal categoria) {
         this.categoria = categoria;
     }
 
+    /**
+     * Metodo para converter um valor do enum 'CategoriaNormal'
+     * para uma string
+     *
+     * @param categoria Categoria do produto em enum
+     * @return Categoria do produto em string
+     */
     private String categoriaToString(CategoriaNormal categoria) {
         String strCategoria = "N/A";
         switch (categoria) {
@@ -57,6 +112,12 @@ public class Normal extends ProdFarmacia implements Serializable {
 
     }
 
+    /**
+     * Metodo toString da classe, devolve os dados do
+     * produto formatados para serem imprimidos
+     *
+     * @return Dados do produto
+     */
     public String toString() {
         return "   ==> " + nome + "\n" +
                 "    Código: " + codigo + "\n" +
@@ -70,6 +131,13 @@ public class Normal extends ProdFarmacia implements Serializable {
                 String.format("    Valor do IVA: %-6.2f", calcValorIva());
     }
 
+    /**
+     * Metodo que verifica se todos os atributos do produto
+     * foram inicializados corretamente, verificando assim se
+     * o produto é válido
+     *
+     * @return Valor booleano que descreve a validade do produto
+     */
     public boolean validProduto() {
         boolean res = super.validProduto();
         res = res && categoria != null;

@@ -2,29 +2,55 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * Classe para gerir os clientes adicionados à aplicação
+ *
+ * @author Bernardo Mateus e Samuel Riça
+ * @version 1.0
+ */
 public class ListaClientes implements Serializable {
-    // Atributos da classe
+    /**
+     * Lista de clientes
+     */
     private ArrayList<Cliente> clientes;
 
-    // Construtores
+    /**
+     * Construtor por omissão, inicializa o ArrayList de clientes
+     */
     public ListaClientes() {
         clientes = new ArrayList<Cliente>();
     }
 
+    /**
+     * Construtor da classe, recebe um ArrayList de clientes
+     * para inicializar o respetivo atributo
+     *
+     * @param clientes Lista de clientes
+     */
     public ListaClientes(ArrayList<Cliente> clientes) {
         this.clientes = clientes;
     }
 
-    // Metodos de acesso
+    /**
+     * Metodo de acesso ao atributo 'clientes' (getter)
+     * @return Lista de clientes
+     */
     public ArrayList<Cliente> getClientes() {
         return clientes;
     }
 
+    /**
+     * Metodo de acesso ao atributo 'clientes' (setter)
+     * @param clientes Lista de clientes
+     */
     public void setClientes(ArrayList<Cliente> clientes) {
         this.clientes = clientes;
     }
 
-
+    /**
+     * Metodo para imprimir todos os clientes registados
+     * na aplicação em forma de tabela
+     */
     public void printClientes() {
         System.out.printf("\n %-25s | %-9s | %-20s%n", "NOME DO CLIENTE", "NIF", "LOCALIZAÇÃO");
         for (Cliente cliente : clientes) {
@@ -32,6 +58,11 @@ public class ListaClientes implements Serializable {
         }
     }
 
+    /**
+     * Metodo para adicionar um cliente à lista de clientes,
+     * invoca o metodo 'getDadosCliente' para obter os dados
+     * do cliente, adicionando-o ao ArrayList de seguida
+     */
     public void addCliente() {
         // Criar o novo objeto Cliente
         Cliente cliente = new Cliente();
@@ -41,6 +72,12 @@ public class ListaClientes implements Serializable {
         clientes.add(cliente);
     }
 
+    /**
+     * Metodo para editar os dados de um cliente adicionado
+     * previamente à lista de clientes, procura o cliente
+     * recorrendo ao metodo 'searchCliente' e permite a
+     * edição dos dados usando o metodo 'getDadosCliente'
+     */
     public void editCliente() {
         // Encontrar o cliente a editar no ArrayList de Clientes
         Cliente cliente = searchCliente();
@@ -49,6 +86,12 @@ public class ListaClientes implements Serializable {
             getDadosCliente(cliente);
     }
 
+    /**
+     * Metodo para obter do utilizador os dados de um cliente
+     *
+     * @param cliente Objeto Cliente onde os dados recebidos
+     *                serão armazenados
+     */
     private void getDadosCliente(Cliente cliente) {
         Scanner sc = new Scanner(System.in);
         // Obter o nome do cliente
@@ -106,10 +149,18 @@ public class ListaClientes implements Serializable {
         }
     }
 
+    /**
+     * Metodo para procurar um cliente com base no NIF dado
+     * pelo utilizador, devolve um objeto Cliente caso o cliente
+     * seja encontrado no ArrayList de clientes
+     *
+     * @return Cliente com o NIF fornecido ou 'null', caso não
+     * seja encontrado
+     */
     public Cliente searchCliente() {
         Cliente res = null;
         // Imprime todos os clientes para que o utilizador possa selecionar o nome do cliente pretendido
-        if (clientes.size() != 0) {
+        if (!clientes.isEmpty()) {
             printClientes();
             // Recebe input do utilizador
             Scanner scanner = new Scanner(System.in);
@@ -134,25 +185,31 @@ public class ListaClientes implements Serializable {
                 }
             }
             catch (NumberFormatException e) {
-                System.out.println("[!]NIF invalido");
+                System.out.println("[!] NIF inválido");
             }
         } else
             System.out.println("[!] Não existem clientes registados");
         return res;
     }
+
+    /**
+     * Metodo para efetuar a verificação de um NIF passado
+     * como argumento, devolve o valor booleano true se o
+     * NIF for válido e false caso contrário
+     *
+     * @param nif Número de contribuinte a verificar
+     * @return Valor booleano que descreve a validade do NIF
+     */
     private boolean verifyNif(int nif) {
         boolean valid = true;
-        if(nif!=9){
+        if (nif!=9)
             valid = false;
-        }
-        else{
-            for (Cliente cliente : clientes) {
+        else
+            for (Cliente cliente : clientes)
                 if (cliente.getNif() == nif) {
                     valid = false;
                     break;
                 }
-            }
-        }
         return valid;
     }
 }

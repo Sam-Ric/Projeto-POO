@@ -19,8 +19,8 @@ public class ListaFaturas implements Serializable {
     private int numFaturaAtual;
 
     /**
-     * Construtor por omissão, inicializa o ArrayList das faturas e
-     * a variável com o número da próxima fatura a ser adicionada
+     * Construtor por omissão, inicializa o ArrayList das faturas
+     * e a variável com o número da próxima fatura a ser adicionada
      */
     public ListaFaturas() {
         faturas = new ArrayList<Fatura>();
@@ -79,10 +79,10 @@ public class ListaFaturas implements Serializable {
      * cada uma das faturas, formatando os dados numa tabela
      */
     public void printFaturas() {
-        if (faturas.size() == 0)
+        if (faturas.isEmpty())
             System.out.println("[!] Não existem faturas para imprimir!");
         else {
-            System.out.println(String.format(" %-3s | %-20s | %-20s | %-11s | %-12s | %-12s", "Nº", "CLIENTE", "LOCALIZAÇÃO", "Nº PRODUTOS", "TOTAL S/ IVA", "TOTAL C/ IVA"));
+            System.out.printf(" %-3s | %-20s | %-20s | %-11s | %-12s | %-12s\n", "Nº", "CLIENTE", "LOCALIZAÇÃO", "Nº PRODUTOS", "TOTAL S/ IVA", "TOTAL C/ IVA");
             for (Fatura fatura : faturas) {
                 System.out.println(fatura);
             }
@@ -90,8 +90,9 @@ public class ListaFaturas implements Serializable {
     }
 
     /**
-     * Metodo para adicionar uma nova fatura ao ArrayList de faturas,
-     * invoca o metodo getDadosFatura para obter os dados da fatura
+     * Metodo para adicionar uma nova fatura ao ArrayList de
+     * faturas, invoca o metodo 'getDadosFatura' para obter
+     * os dados da fatura
      *
      * @param clientes Lista de clientes
      * @param produtosRegistados Lista de produtos registados
@@ -116,7 +117,7 @@ public class ListaFaturas implements Serializable {
      * @param produtosRegistados Lista de produtos registados
      */
     public void editFatura(ListaClientes clientes, Produtos produtosRegistados) {
-        if (faturas.size() != 0) {
+        if (!faturas.isEmpty()) {
             // Imprimir todas as faturas registadas
             printFaturas();
             // Selecionar uma das faturas com base nos respetivos números
@@ -159,7 +160,7 @@ public class ListaFaturas implements Serializable {
     private void getDadosFatura(Fatura fatura, ListaClientes clientes, Produtos produtosRegistados) {
         Scanner sc = new Scanner(System.in);
         // Caso não existam clientes registados, o utilizador deve registar um
-        if (clientes.getClientes().size() == 0) {
+        if (clientes.getClientes().isEmpty()) {
             clientes.addCliente();
         }
         // Associar um cliente à fatura
@@ -207,7 +208,7 @@ public class ListaFaturas implements Serializable {
                 fatura.getProdutos().addProduto(fatura.getCliente(), produtosRegistados);
             }
             else if (opcao.equals("2")) {
-                if (produtosRegistados.getProdutos().size() != 0) {
+                if (!produtosRegistados.getProdutos().isEmpty()) {
                     // Imprimir todos os produtos registados
                     produtosRegistados.printProdutosRegistados();
                     System.out.print("Insira o código do produto: ");
@@ -227,7 +228,7 @@ public class ListaFaturas implements Serializable {
                     System.out.println("[!] Não existem produtos registados");
             }
             else if (opcao.equals("3")) {
-                if (fatura.getProdutos().getProdutosFatura().size() > 0)
+                if (!fatura.getProdutos().getProdutosFatura().isEmpty())
                     fatura.getProdutos().printProdutos();
                 else
                     System.out.println("[!] Ainda não foram adicionados produtos!");
@@ -486,41 +487,52 @@ public class ListaFaturas implements Serializable {
 
                 // Obter os produtos associados à fatura
                 String[] produtos = dadosFatura[2].split("&");
-                for (int i = 0; i < produtos.length; i++) {
-                    String[] dadosProduto = produtos[i].split(";");
+                for (String produto : produtos) {
+                    String[] dadosProduto = produto.split(";");
+                    // Efetuar o parsing do produto com base no tipo de produto
                     switch (dadosProduto[0]) {
                         case "prescricao":
                             Prescricao prescricao = fatura.parsePrescricao(dadosProduto);
                             if (prescricao != null) {
+                                // Registar o produto na lista de produtos registados
                                 produtosRegistados.registarProduto(prescricao);
+                                // Adicionar o produto à lista de produtos da fatura atual
                                 fatura.getProdutos().getProdutosFatura().add(prescricao);
                             }
                             break;
                         case "normal":
                             Normal normal = fatura.parseNormal(dadosProduto);
                             if (normal != null) {
+                                // Registar o produto na lista de produtos registados
                                 produtosRegistados.registarProduto(normal);
+                                // Adicionar o produto à lista de produtos da fatura atual
                                 fatura.getProdutos().getProdutosFatura().add(normal);
                             }
                             break;
                         case "taxaNormal":
                             TaxaNormal taxaNormal = fatura.parseTaxaNormal(dadosProduto);
                             if (taxaNormal != null) {
+                                // Registar o produto na lista de produtos registados
                                 produtosRegistados.registarProduto(taxaNormal);
+                                // Adicionar o produto à lista de produtos da fatura atual
                                 fatura.getProdutos().getProdutosFatura().add(taxaNormal);
                             }
                             break;
                         case "taxaIntermedia":
                             TaxaIntermedia taxaIntermedia = fatura.parseTaxaIntermedia(dadosProduto);
                             if (taxaIntermedia != null) {
+                                // Registar o produto na lista de produtos registados
                                 produtosRegistados.registarProduto(taxaIntermedia);
+                                // Adicionar o produto à lista de produtos da fatura atual
                                 fatura.getProdutos().getProdutosFatura().add(taxaIntermedia);
                             }
                             break;
                         case "taxaReduzida":
                             TaxaReduzida taxaReduzida = fatura.parseTaxaReduzida(dadosProduto);
                             if (taxaReduzida != null) {
+                                // Registar o produto na lista de produtos registados
                                 produtosRegistados.registarProduto(taxaReduzida);
+                                // Adicionar o produto à lista de produtos da fatura atual
                                 fatura.getProdutos().getProdutosFatura().add(taxaReduzida);
                             }
                             break;
@@ -541,9 +553,12 @@ public class ListaFaturas implements Serializable {
      */
     public Cliente parseCliente(String[] dadosCliente) {
         Cliente cliente = new Cliente();
+        // Obtém o nome do cliente
         cliente.setNome(dadosCliente[0]);
         try {
+            // Obtém o NIF do cliente
             cliente.setNif(Integer.parseInt(dadosCliente[1]));
+            // Obtém a localização do cliente
             switch (dadosCliente[2]) {
                 case "1":
                     cliente.setLocalizacao(Localizacao.continente);

@@ -179,7 +179,7 @@ public class POO implements Serializable {
                 ArrayList<Fatura> faturas = listaFaturas.getFaturas();
                 int numFatura = 1;
                 while ((linha = br.readLine()) != null) {
-                    Fatura fatura = listaFaturas.parseFatura(linha, numFatura, produtosRegistados);
+                    Fatura fatura = listaFaturas.parseFatura(linha, numFatura, res.getProdutosRegistados());
                     if (listaFaturas.validFatura(fatura)) {
                         numFatura++;
                         faturas.add(fatura);
@@ -198,8 +198,8 @@ public class POO implements Serializable {
     }
 
     /**
-     * Metodo que imprime dados estatísticos relativos às faturas
-     * registadas na aplicação
+     * Metodo que imprime dados estatísticos relativos às
+     * faturas registadas na aplicação
      */
     public void printEstatiscas(){
         System.out.println("========== ESTATÍSTICA ==========");

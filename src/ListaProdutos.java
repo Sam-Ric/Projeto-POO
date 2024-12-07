@@ -4,29 +4,61 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.lang.*;
 
+/**
+ * Classe para gerir a lista de produtos associada a uma fatura
+ *
+ * @author Bernardo Mateus e Samuel Riça
+ * @version 1.0
+ */
 public class ListaProdutos implements Serializable {
-    // Atributos da classe
+    /**
+     * ArrayList de produtos da fatura
+     */
     private ArrayList<Produto> produtosFatura;
 
-    // Construtores
+    /**
+     * Construtor por omissão da classe, inicializa o ArrayList
+     * de produtos
+     */
     public ListaProdutos() {
         produtosFatura = new ArrayList<Produto>();
     }
 
+    /**
+     * Construtor da classe, recebe um ArrayList para a
+     * inicialização do atributo
+     *
+     * @param produtosFatura Lista de produtos
+     */
     public ListaProdutos(ArrayList<Produto> produtosFatura) {
         this.produtosFatura = produtosFatura;
     }
 
     // Metodos de acesso
+    /**
+     * Metodo de acesso ao atributo 'produtosFatura' (getter)
+     * @return ArrayList de produtos
+     */
     public ArrayList<Produto> getProdutosFatura() {
         return produtosFatura;
     }
 
+    /**
+     * Metodo de acesso ao atributo 'produtosFatura' (setter)
+     * @param produtosFatura ArrayList de produtos
+     */
     public void setProdutosFatura(ArrayList<Produto> produtosFatura) {
         this.produtosFatura = produtosFatura;
     }
 
-
+    /**
+     * Metodo para adicionar um novo produto ao ArrayList de
+     * produtos da fatura, pedindo ao utilizador os dados que
+     * caracterizam o produto
+     *
+     * @param cliente Dados do cliente associado à fatura
+     * @param produtosRegistados Lista de produtos registados
+     */
     public void addProduto(Cliente cliente, Produtos produtosRegistados) {
         Scanner sc = new Scanner(System.in);
         System.out.println("\nSelecione o tipo de produto:");
@@ -260,6 +292,10 @@ public class ListaProdutos implements Serializable {
         }
     }
 
+    /**
+     * Metodo para remover um produto do ArrayList de produtos
+     * com base num código dado pelo utilizador
+     */
     public void removeProduto() {
         Scanner sc = new Scanner(System.in);
         printProdutos();
@@ -281,6 +317,10 @@ public class ListaProdutos implements Serializable {
         }
     }
 
+    /**
+     * Metodo para imprimir todos os produtos armazenados
+     * no ArrayList de produtos
+     */
     public void printProdutos() {
         for (int i = 0; i < produtosFatura.size(); i++) {
             System.out.println(produtosFatura.get(i));
@@ -289,6 +329,12 @@ public class ListaProdutos implements Serializable {
         }
     }
 
+    /**
+     * Metodo para pedir ao utilizador os dados de um produto a
+     * ser adicionado ao ArrayList de produtos
+     *
+     * @param produto Produto a ser adicionado ao ArrayList
+     */
     private void getProdInfo(Produto produto) {
         Scanner sc = new Scanner(System.in);
         
@@ -298,7 +344,7 @@ public class ListaProdutos implements Serializable {
     
         // Obter a descricao do produto
         System.out.println("\nInsira uma breve descrição do produto:");
-        boolean validDesc = false;
+        boolean validDesc;
         String desc;
         do {
             System.out.print(">> ");
@@ -342,6 +388,16 @@ public class ListaProdutos implements Serializable {
         }
     }
 
+    /**
+     * Metodo para definir a taxa do IVA de um produto com
+     * base na localização do cliente associado à fatura
+     *
+     * @param cliente Cliente associado à fatura
+     * @param produto Produto a ser adicionado ao ArrayList de produtos
+     * @param taxaContinente Taxa do IVA para um cliente do Continente
+     * @param taxaMadeira Taxa do IVA para um cliente da Madeira
+     * @param taxaAcores Taxa do IVA para um cliente dos Açores
+     */
     private void setTaxaIva(Cliente cliente, Produto produto, int taxaContinente, int taxaMadeira, int taxaAcores) {
         if (cliente.getLocalizacao() == Localizacao.continente)
             produto.setIva(taxaContinente);
@@ -351,6 +407,15 @@ public class ListaProdutos implements Serializable {
             produto.setIva(taxaAcores);
     }
 
+    /**
+     * Metodo para verificar se existem caracteres estranhos
+     * na string que contém a descrição, devolvendo o valor
+     * booleano true se a string for válida e, caso contrário,
+     * false
+     *
+     * @param desc String com a descrição do produto
+     * @return Valor booleano que descreve a validade da descrição
+     */
     private boolean verificarDescricao(String desc) {
         boolean res = true;
         for (int i = 0; i < desc.length(); i++)

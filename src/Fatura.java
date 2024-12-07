@@ -1,20 +1,54 @@
 import java.io.Serializable;
 
+/**
+ * Classe que representa uma fatura
+ *
+ * @author Bernardo Mateus e Samuel Riça
+ * @version 1.0
+ */
 public class Fatura implements Serializable {
-    // Atributos da classe
+    /**
+     * Número da fatura
+     */
     private int numFatura;
+    /**
+     * Cliente associado à fatura
+     */
     private Cliente cliente;
+    /**
+     * Data de emissão da fatura
+     */
     private Data data;
+    /**
+     * Lista de produtos
+     */
     private ListaProdutos produtos;
 
-    // Construtores
+    /**
+     * Construtor por omissão
+     */
     public Fatura() {}
 
+    /**
+     * Construtor da classe, recebe o número da fatura e
+     * inicializa os atributos
+     *
+     * @param numFatura Número da fatura
+     */
     public Fatura(int numFatura) {
         this.numFatura = numFatura;
         produtos = new ListaProdutos();
     }
 
+    /**
+     * Construtor da classe, recebe dados para inicializar
+     * os atributos
+     *
+     * @param numFatura Número da classe
+     * @param cliente Cliente associado à fatura
+     * @param data Data de emissão
+     * @param produtos Lista de produtos
+     */
     public Fatura(int numFatura, Cliente cliente, Data data, ListaProdutos produtos) {
         this.numFatura = numFatura;
         this.cliente = cliente;
@@ -22,43 +56,87 @@ public class Fatura implements Serializable {
         this.produtos = produtos;
     }
 
-    // Metodos de acesso
+    /**
+     * Metodo de acesso ao atributo 'numFatura' (getter)
+     * @return Número da fatura
+     */
     public int getNumFatura() {
         return numFatura;
     }
 
+    /**
+     * Metodo de acesso ao atributo 'numFatura' (setter)
+     * @param numFatura Número da fatura
+     */
     public void setNumFatura(int numFatura) {
         this.numFatura = numFatura;
     }
 
+    /**
+     * Metodo de acesso ao atributo 'cliente' (getter)
+     * @return Cliente associado à fatura
+     */
     public Cliente getCliente() {
         return cliente;
     }
 
+    /**
+     * Metodo de acesso ao atributo 'cliente' (setter)
+     * @param cliente Cliente associado à fatura
+     */
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }
 
+    /**
+     * Metodo de acesso ao atributo 'data' (getter)
+     * @return Data de emissão
+     */
     public Data getData() {
         return data;
     }
 
+    /**
+     * Metodo de acesso ao atributo 'data' (setter)
+     * @param data Data de emissão
+     */
     public void setData(Data data) {
         this.data = data;
     }
 
+    /**
+     * Metodo de acesso ao atributo 'listaProdutos' (getter)
+     * @return Lista de produtos
+     */
     public ListaProdutos getProdutos() {
         return produtos;
     }
 
+    /**
+     * Metodo de acesso ao atributo 'listaProdutos' (setter)
+     * @param produtos Lista de produtos
+     */
     public void setProdutos(ListaProdutos produtos) {
         this.produtos = produtos;
     }
 
+    /**
+     * Metodo toString, devolve uma string com os dados
+     * da fatura formatados de forma a serem imprimidos
+     * em forma de tabela
+     *
+     * @return Dados da fatura
+     */
     public String toString() {
         return String.format(" %-3d | %-20s | %-20s | %-11d | %-12.2f | %-12.2f", numFatura, cliente.getNome(), Static.localizacaoToString(cliente.getLocalizacao()), produtos.getProdutosFatura().size(), calcTotalSemIva(), calcTotalComIva());
     }
 
+    /**
+     * Metodo para calcular o valor total da fatura, sem
+     * a taxa do IVA
+     *
+     * @return Valor total da fatura sem o IVA
+     */
     public float calcTotalSemIva() {
         float total = 0;
         for (Produto produto : produtos.getProdutosFatura())
@@ -66,6 +144,12 @@ public class Fatura implements Serializable {
         return total;
     }
 
+    /**
+     * Metodo para calcular o valor total da fatura,
+     * considerando a taxa do IVA
+     *
+     * @return Valor total da fatura com o IVA
+     */
     public float calcTotalComIva() {
         float total = 0;
         for (Produto produto : produtos.getProdutosFatura())
@@ -73,10 +157,23 @@ public class Fatura implements Serializable {
         return total;
     }
 
+    /**
+     * Metodo para calcular o valor total do IVA, ou seja,
+     * a diferença entre o valor total da fatura com o IVA
+     * e o valor total sem o IVA
+     *
+     * @return Valor total do IVA
+     */
     public float calcValorIva() {
         return calcTotalComIva() - calcTotalSemIva();
     }
 
+    /**
+     * Metodo para imprimir todos os dados de uma fatura,
+     * nomeadamente, os dados do cliente, todos os produtos
+     * na lista de produtos e os valores totais da fatura
+     * com e sem o IVA assim como o valor total do IVA
+     */
     public void printFatura() {
         System.out.println("\n========== FATURA Nº" + numFatura + "==========");
         System.out.println("> Cliente");
@@ -91,6 +188,14 @@ public class Fatura implements Serializable {
         System.out.printf("   Valor Total do IVA: %.2f\n", calcValorIva());
     }
 
+    /**
+     * Metodo para efetuar o parsing de uma data lida de um
+     * ficheiro de texto, recebe um array de strings e devolve
+     * a data no formato de um objeto do tipo Data
+     *
+     * @param dadosData Dados lidos do ficheiro de texto
+     * @return Objeto do tipo Data contendo a data recebida
+     */
     public Data parseData(String[] dadosData) {
         Data data = new Data();
         try {
@@ -104,6 +209,14 @@ public class Fatura implements Serializable {
         return data;
     }
 
+    /**
+     * Metodo para efetuar o parsing de um produto alimentar
+     * de taxa reduzida, lido de um ficheiro de texto, devolve
+     * um objeto do tipo TaxaReduzida contendo os dados recebidos
+     *
+     * @param temp Dados do produto de taxa reduzida
+     * @return Objeto do tipo TaxaReduzida contendo os dados recebidos
+     */
     public TaxaReduzida parseTaxaReduzida(String[] temp) {
         TaxaReduzida taxaReduzida = new TaxaReduzida();
         try {
@@ -121,7 +234,14 @@ public class Fatura implements Serializable {
         }
         return taxaReduzida;
     }
-
+    /**
+     * Metodo para efetuar o parsing de um produto alimentar
+     * de taxa intermedia, lido de um ficheiro de texto, devolve
+     * um objeto do tipo TaxaIntermedia contendo os dados recebidos
+     *
+     * @param temp Dados do produto de taxa intermedia
+     * @return Objeto do tipo TaxaIntermedia contendo os dados recebidos
+     */
     public TaxaIntermedia parseTaxaIntermedia(String[] temp) {
         TaxaIntermedia taxaIntermedia = new TaxaIntermedia();
         try {
@@ -150,6 +270,14 @@ public class Fatura implements Serializable {
         return taxaIntermedia;
     }
 
+    /**
+     * Metodo para efetuar o parsing de um produto alimentar
+     * de taxa normal, lido de um ficheiro de texto, devolve
+     * um objeto do tipo TaxaNormal contendo os dados recebidos
+     *
+     * @param temp Dados do produto de taxa normal
+     * @return Objeto do tipo TaxaNormal contendo os dados recebidos
+     */
     public TaxaNormal parseTaxaNormal(String[] temp) {
         TaxaNormal taxaNormal = new TaxaNormal();
         try {
@@ -167,6 +295,14 @@ public class Fatura implements Serializable {
         return taxaNormal;
     }
 
+    /**
+     * Metodo para efetuar o parsing de um produto de farmácia
+     * do tipo Normal, lido de um ficheiro de texto, devolve um
+     * objeto do tipo Normal contendo os dados recebidos
+     *
+     * @param temp Dados do produto de farmácia sem prescrição
+     * @return Objeto do tipo Normal contendo os dados recebidos
+     */
     public Normal parseNormal(String[] temp) {
         Normal normal = new Normal();
         try {
@@ -199,6 +335,14 @@ public class Fatura implements Serializable {
         return normal;
     }
 
+    /**
+     * Metodo para efetuar o parsing de um produto de farmácia
+     * do tipo Prescricao, lido de um ficheiro de texto, devolve um
+     * objeto do tipo Prescricao contendo os dados recebidos
+     *
+     * @param temp Dados do produto de farmácia com prescrição
+     * @return Objeto do tipo Prescricao contendo os dados recebidos
+     */
     public Prescricao parsePrescricao(String[] temp) {
         Prescricao prescricao = new Prescricao();
         try {

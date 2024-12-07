@@ -1,8 +1,17 @@
-import java.io.*;
-import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * Classe Main da aplicação, onde são chamados os
+ * métodos utilizados para implementar as funcionalidades
+ *
+ * @author Bernardo Mateus e Samuel Riça
+ * @version 1.0
+ */
 public class Main {
+    /**
+     * Metodo Main
+     * @param args Argumentos passados na chamada do metodo main
+     */
     public static void main(String[] args) {
         POO dados = new POO();
         dados = dados.fetchDados();
