@@ -10,7 +10,7 @@ public class Prescricao extends ProdFarmacia implements Serializable {
     /**
      * Médico que prescreveu o produto
      */
-    protected String medico;
+    private String medico;
 
     /**
      * Construtor por omissão

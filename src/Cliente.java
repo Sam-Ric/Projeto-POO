@@ -29,15 +29,15 @@ public class Cliente implements Serializable {
     /**
      * Nome do cliente
      */
-    protected String nome;
+    private String nome;
     /**
      * Número de contribuinte
      */
-    protected int nif;
+    private int nif;
     /**
      * Localização do cliente
      */
-    protected Localizacao localizacao;
+    private Localizacao localizacao;
 
     /**
      * Construtor por omissão

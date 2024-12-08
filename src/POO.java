@@ -201,7 +201,7 @@ public class POO implements Serializable {
      * Metodo que imprime dados estatísticos relativos às
      * faturas registadas na aplicação
      */
-    public void printEstatiscas(){
+    public void printEstatisticas(){
         System.out.println("========== ESTATÍSTICA ==========");
         // Obter o numero de faturas
         ArrayList<Fatura> faturas=listaFaturas.getFaturas();

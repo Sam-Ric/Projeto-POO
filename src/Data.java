@@ -88,6 +88,15 @@ public class Data implements Serializable {
     }
 
     /**
+     * Metodo toString, devolve a data formatada em
+     * formato de string
+     * @return Data formatada
+     */
+    public String toString() {
+        return String.format("%d/%d/%d", dia, mes, ano);
+    }
+
+    /**
      * Metodo para verificar se um dia é válido
      *
      * @param dia Dia a ser verificado

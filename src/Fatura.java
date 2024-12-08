@@ -214,20 +214,20 @@ public class Fatura implements Serializable {
      * de taxa reduzida, lido de um ficheiro de texto, devolve
      * um objeto do tipo TaxaReduzida contendo os dados recebidos
      *
-     * @param temp Dados do produto de taxa reduzida
+     * @param dados Dados do produto de taxa reduzida
      * @return Objeto do tipo TaxaReduzida contendo os dados recebidos
      */
-    public TaxaReduzida parseTaxaReduzida(String[] temp) {
+    public TaxaReduzida parseTaxaReduzida(String[] dados) {
         TaxaReduzida taxaReduzida = new TaxaReduzida();
         try {
-            if (temp[1].equals("1")) taxaReduzida.setBiologico(true);
+            if (dados[1].equals("1")) taxaReduzida.setBiologico(true);
             else taxaReduzida.setBiologico(false);
-            taxaReduzida.setNome(temp[2]);
-            taxaReduzida.setDesc(temp[3]);
-            taxaReduzida.setQuantidade(Integer.parseInt(temp[4]));
-            taxaReduzida.setValorUnit(Float.parseFloat(temp[5]));
-            taxaReduzida.setIva(Integer.parseInt(temp[6]));
-            taxaReduzida.setCertificacoes(temp[7].split(":"));
+            taxaReduzida.setNome(dados[2]);
+            taxaReduzida.setDesc(dados[3]);
+            taxaReduzida.setQuantidade(Integer.parseInt(dados[4]));
+            taxaReduzida.setValorUnit(Float.parseFloat(dados[5]));
+            taxaReduzida.setIva(Integer.parseInt(dados[6]));
+            taxaReduzida.setCertificacoes(dados[7].split(":"));
         } catch (NumberFormatException e) {
             System.out.println("[!] Ficheiro com formato inválido");
             taxaReduzida = null;
@@ -239,20 +239,20 @@ public class Fatura implements Serializable {
      * de taxa intermedia, lido de um ficheiro de texto, devolve
      * um objeto do tipo TaxaIntermedia contendo os dados recebidos
      *
-     * @param temp Dados do produto de taxa intermedia
+     * @param dados Dados do produto de taxa intermedia
      * @return Objeto do tipo TaxaIntermedia contendo os dados recebidos
      */
-    public TaxaIntermedia parseTaxaIntermedia(String[] temp) {
+    public TaxaIntermedia parseTaxaIntermedia(String[] dados) {
         TaxaIntermedia taxaIntermedia = new TaxaIntermedia();
         try {
-            if (temp[1].equals("1")) taxaIntermedia.setBiologico(true);
+            if (dados[1].equals("1")) taxaIntermedia.setBiologico(true);
             else taxaIntermedia.setBiologico(false);
-            taxaIntermedia.setNome(temp[2]);
-            taxaIntermedia.setDesc(temp[3]);
-            taxaIntermedia.setQuantidade(Integer.parseInt(temp[4]));
-            taxaIntermedia.setValorUnit(Float.parseFloat(temp[5]));
-            taxaIntermedia.setIva(Integer.parseInt(temp[6]));
-            switch (temp[7]) {
+            taxaIntermedia.setNome(dados[2]);
+            taxaIntermedia.setDesc(dados[3]);
+            taxaIntermedia.setQuantidade(Integer.parseInt(dados[4]));
+            taxaIntermedia.setValorUnit(Float.parseFloat(dados[5]));
+            taxaIntermedia.setIva(Integer.parseInt(dados[6]));
+            switch (dados[7]) {
                 case "enlatados":
                     taxaIntermedia.setCategoria(CategoriaTaxaIntermedia.enlatados);
                     break;
@@ -275,19 +275,19 @@ public class Fatura implements Serializable {
      * de taxa normal, lido de um ficheiro de texto, devolve
      * um objeto do tipo TaxaNormal contendo os dados recebidos
      *
-     * @param temp Dados do produto de taxa normal
+     * @param dados Dados do produto de taxa normal
      * @return Objeto do tipo TaxaNormal contendo os dados recebidos
      */
-    public TaxaNormal parseTaxaNormal(String[] temp) {
+    public TaxaNormal parseTaxaNormal(String[] dados) {
         TaxaNormal taxaNormal = new TaxaNormal();
         try {
-            if (temp[1].equals("1")) taxaNormal.setBiologico(true);
+            if (dados[1].equals("1")) taxaNormal.setBiologico(true);
             else taxaNormal.setBiologico(false);
-            taxaNormal.setNome(temp[2]);
-            taxaNormal.setDesc(temp[3]);
-            taxaNormal.setQuantidade(Integer.parseInt(temp[4]));
-            taxaNormal.setValorUnit(Float.parseFloat(temp[5]));
-            taxaNormal.setIva(Integer.parseInt(temp[6]));
+            taxaNormal.setNome(dados[2]);
+            taxaNormal.setDesc(dados[3]);
+            taxaNormal.setQuantidade(Integer.parseInt(dados[4]));
+            taxaNormal.setValorUnit(Float.parseFloat(dados[5]));
+            taxaNormal.setIva(Integer.parseInt(dados[6]));
         } catch (NumberFormatException e) {
             System.out.println("[!] Ficheiro com formato inválido");
             taxaNormal = null;
@@ -300,18 +300,18 @@ public class Fatura implements Serializable {
      * do tipo Normal, lido de um ficheiro de texto, devolve um
      * objeto do tipo Normal contendo os dados recebidos
      *
-     * @param temp Dados do produto de farmácia sem prescrição
+     * @param dados Dados do produto de farmácia sem prescrição
      * @return Objeto do tipo Normal contendo os dados recebidos
      */
-    public Normal parseNormal(String[] temp) {
+    public Normal parseNormal(String[] dados) {
         Normal normal = new Normal();
         try {
-            normal.setNome(temp[1]);
-            normal.setDesc(temp[2]);
-            normal.setQuantidade(Integer.parseInt(temp[3]));
-            normal.setValorUnit(Float.parseFloat(temp[4]));
-            normal.setIva(Integer.parseInt(temp[5]));
-            switch (temp[6]) {
+            normal.setNome(dados[1]);
+            normal.setDesc(dados[2]);
+            normal.setQuantidade(Integer.parseInt(dados[3]));
+            normal.setValorUnit(Float.parseFloat(dados[4]));
+            normal.setIva(Integer.parseInt(dados[5]));
+            switch (dados[6]) {
                 case "beleza":
                     normal.setCategoria(CategoriaNormal.beleza);
                     break;
@@ -340,18 +340,18 @@ public class Fatura implements Serializable {
      * do tipo Prescricao, lido de um ficheiro de texto, devolve um
      * objeto do tipo Prescricao contendo os dados recebidos
      *
-     * @param temp Dados do produto de farmácia com prescrição
+     * @param dados Dados do produto de farmácia com prescrição
      * @return Objeto do tipo Prescricao contendo os dados recebidos
      */
-    public Prescricao parsePrescricao(String[] temp) {
+    public Prescricao parsePrescricao(String[] dados) {
         Prescricao prescricao = new Prescricao();
         try {
-            prescricao.setNome(temp[1]);
-            prescricao.setDesc(temp[2]);
-            prescricao.setQuantidade(Integer.parseInt(temp[3]));
-            prescricao.setValorUnit(Float.parseFloat(temp[4]));
-            prescricao.setIva(Integer.parseInt(temp[5]));
-            prescricao.setMedico(temp[6]);
+            prescricao.setNome(dados[1]);
+            prescricao.setDesc(dados[2]);
+            prescricao.setQuantidade(Integer.parseInt(dados[3]));
+            prescricao.setValorUnit(Float.parseFloat(dados[4]));
+            prescricao.setIva(Integer.parseInt(dados[5]));
+            prescricao.setMedico(dados[6]);
         } catch (NumberFormatException e) {
             System.out.println("[!] Ficheiro com formato inválido");
             prescricao = null;
