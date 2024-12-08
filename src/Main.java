@@ -94,7 +94,7 @@ public class Main {
                     dados.getListaFaturas().exportarFaturas(fileToExport);
                     break;
                 case "9":
-                    dados.printEstatisticas();
+                    dados.getListaFaturas().printEstatisticas();
             }
         }
         dados.exportarDados(dados, "autosave.obj");

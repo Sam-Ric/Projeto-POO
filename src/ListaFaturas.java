@@ -597,4 +597,47 @@ public class ListaFaturas implements Serializable {
         }
         return res;
     }
+
+    /**
+     * Metodo que imprime dados estatísticos relativos às
+     * faturas registadas na aplicação
+     */
+    public void printEstatisticas(){
+        System.out.println("========== ESTATÍSTICAS ==========");
+        // Obter o numero de faturas
+        int nFaturas = faturas.size();
+        System.out.println("Número de faturas: " + nFaturas);
+
+        // Obter o numero total de produtos
+        int nProdutos=0;
+        for (int i = 0; i < nFaturas; i++) {
+            Fatura fatura = faturas.get(i);
+            nProdutos+=fatura.getProdutos().getProdutosFatura().size();
+        }
+        System.out.println("Número de produtos: " + nProdutos);
+
+        // Calcular o valor total sem IVA
+        float valorTotalSemIva=0f;
+        for (int i = 0; i < nFaturas; i++) {
+            Fatura fatura = faturas.get(i);
+            valorTotalSemIva+=fatura.calcTotalSemIva();
+        }
+        System.out.printf("Valor Total Sem IVA: %.2f\n", valorTotalSemIva);
+
+        // Calcular o valor total com IVA
+        float valorTotalComIva=0f;
+        for (int i = 0; i < nFaturas; i++) {
+            Fatura fatura = faturas.get(i);
+            valorTotalComIva+=fatura.calcTotalComIva();
+        }
+        System.out.printf("Valor Total Com IVA: %.2f\n", valorTotalComIva);
+
+        // Calcular o valor total do IVA
+        float valorTotalDoIva=0f;
+        for (int i = 0; i < nFaturas; i++) {
+            Fatura fatura = faturas.get(i);
+            valorTotalDoIva+=fatura.calcValorIva();
+        }
+        System.out.printf("Valor Total do IVA: %.2f\n", valorTotalDoIva);
+    }
 }

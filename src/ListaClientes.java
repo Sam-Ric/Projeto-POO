@@ -95,7 +95,7 @@ public class ListaClientes implements Serializable {
     private void getDadosCliente(Cliente cliente) {
         Scanner sc = new Scanner(System.in);
         // Obter o nome do cliente
-        System.out.println("Insira o nome:");
+        System.out.println("\nInsira o nome:");
         String nome = "N/A";
         boolean validNome = false;
         while (!validNome) {
@@ -202,7 +202,7 @@ public class ListaClientes implements Serializable {
      */
     private boolean verifyNif(int nif) {
         boolean valid = true;
-        if (nif!=9)
+        if (Integer.toString(nif).length() != 9)
             valid = false;
         else
             for (Cliente cliente : clientes)
