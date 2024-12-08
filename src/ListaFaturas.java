@@ -273,7 +273,7 @@ public class ListaFaturas implements Serializable {
                     // Escrever os dados do produto no ficheiro de texto
                     writeProduto(tipo, produto, f, fw, bw);
                     if (i < temp.size() - 1)
-                        bw.write("#");
+                        bw.write("&");
                 }
                 bw.newLine();
             }
